@@ -15,6 +15,7 @@ namespace FocusFlow
 
         private void InitializeComponent()
         {
+            pageLayout = new TableLayoutPanel();
             taskCard = new Panel();
             taskKicker = new Label();
             taskTitle = new Label();
@@ -24,6 +25,7 @@ namespace FocusFlow
             stepsEmpty = new Label();
             taskCard.SuspendLayout();
             stepsCard.SuspendLayout();
+            pageLayout.SuspendLayout();
             SuspendLayout();
             // 
             // taskCard
@@ -32,7 +34,9 @@ namespace FocusFlow
             taskCard.Controls.Add(taskMeta);
             taskCard.Controls.Add(taskTitle);
             taskCard.Controls.Add(taskKicker);
-            taskCard.Location = new Point(24, 24);
+            taskCard.Dock = DockStyle.Fill;
+            taskCard.Margin = new Padding(0, 0, 0, 10);
+            taskCard.Location = new Point(27, 3);
             taskCard.Name = "taskCard";
             taskCard.Size = new Size(862, 128);
             taskCard.TabIndex = 0;
@@ -51,6 +55,7 @@ namespace FocusFlow
             // 
             taskTitle.Font = new Font("Nunito Sans Normal SemiBold", 14F);
             taskTitle.ForeColor = Color.FromArgb(32, 44, 62);
+            taskTitle.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             taskTitle.Location = new Point(24, 40);
             taskTitle.Name = "taskTitle";
             taskTitle.Size = new Size(500, 30);
@@ -61,6 +66,7 @@ namespace FocusFlow
             // 
             taskMeta.Font = new Font("Nunito Sans Normal", 9F);
             taskMeta.ForeColor = Color.FromArgb(120, 116, 110);
+            taskMeta.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             taskMeta.Location = new Point(24, 78);
             taskMeta.Name = "taskMeta";
             taskMeta.Size = new Size(520, 24);
@@ -72,7 +78,9 @@ namespace FocusFlow
             stepsCard.BackColor = Color.White;
             stepsCard.Controls.Add(stepsEmpty);
             stepsCard.Controls.Add(stepsTitle);
-            stepsCard.Location = new Point(24, 172);
+            stepsCard.Dock = DockStyle.Fill;
+            stepsCard.Margin = new Padding(0, 10, 0, 0);
+            stepsCard.Location = new Point(27, 151);
             stepsCard.Name = "stepsCard";
             stepsCard.Size = new Size(862, 200);
             stepsCard.TabIndex = 1;
@@ -81,6 +89,7 @@ namespace FocusFlow
             // 
             stepsTitle.Font = new Font("Nunito Sans Normal SemiBold", 11F);
             stepsTitle.ForeColor = Color.FromArgb(32, 44, 62);
+            stepsTitle.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             stepsTitle.Location = new Point(24, 18);
             stepsTitle.Name = "stepsTitle";
             stepsTitle.Size = new Size(420, 26);
@@ -91,27 +100,46 @@ namespace FocusFlow
             // 
             stepsEmpty.Font = new Font("Nunito Sans Normal", 9.5F);
             stepsEmpty.ForeColor = Color.FromArgb(120, 116, 110);
+            stepsEmpty.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             stepsEmpty.Location = new Point(24, 64);
             stepsEmpty.Name = "stepsEmpty";
             stepsEmpty.Size = new Size(520, 48);
             stepsEmpty.TabIndex = 1;
             stepsEmpty.Text = "No micro-steps yet. Small steps for the task will show up here.";
             // 
+            // pageLayout
+            // 
+            pageLayout.BackColor = Color.FromArgb(250, 247, 242);
+            pageLayout.ColumnCount = 1;
+            pageLayout.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
+            pageLayout.Controls.Add(taskCard, 0, 0);
+            pageLayout.Controls.Add(stepsCard, 0, 1);
+            pageLayout.Dock = DockStyle.Fill;
+            pageLayout.Location = new Point(0, 0);
+            pageLayout.Name = "pageLayout";
+            pageLayout.Padding = new Padding(24);
+            pageLayout.RowCount = 2;
+            pageLayout.RowStyles.Add(new RowStyle(SizeType.Absolute, 138F));
+            pageLayout.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
+            pageLayout.Size = new Size(910, 680);
+            pageLayout.TabIndex = 0;
+            // 
             // TaskBreakdownControl
             // 
             AutoScaleDimensions = new SizeF(7F, 17F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(250, 247, 242);
-            Controls.Add(stepsCard);
-            Controls.Add(taskCard);
+            Controls.Add(pageLayout);
             Font = new Font("Nunito Sans Normal", 9F);
             Name = "TaskBreakdownControl";
             Size = new Size(910, 680);
             taskCard.ResumeLayout(false);
             stepsCard.ResumeLayout(false);
+            pageLayout.ResumeLayout(false);
             ResumeLayout(false);
         }
 
+        private TableLayoutPanel pageLayout;
         private Panel taskCard;
         private Label taskKicker;
         private Label taskTitle;

@@ -15,6 +15,8 @@ namespace FocusFlow
 
         private void InitializeComponent()
         {
+            pageLayout = new TableLayoutPanel();
+            headerPanel = new Panel();
             dateIcon = new Label();
             dateLabel = new Label();
             pomodoroBadge = new Button();
@@ -53,13 +55,15 @@ namespace FocusFlow
             taskRow2Body.SuspendLayout();
             taskRow3.SuspendLayout();
             quoteCard.SuspendLayout();
+            pageLayout.SuspendLayout();
+            headerPanel.SuspendLayout();
             SuspendLayout();
             // 
             // dateIcon
             // 
             dateIcon.Font = new Font("Segoe MDL2 Assets", 10F);
             dateIcon.ForeColor = Color.FromArgb(120, 116, 110);
-            dateIcon.Location = new Point(24, 18);
+            dateIcon.Location = new Point(0, 10);
             dateIcon.Name = "dateIcon";
             dateIcon.Size = new Size(20, 24);
             dateIcon.TabIndex = 1;
@@ -70,7 +74,7 @@ namespace FocusFlow
             // 
             dateLabel.Font = new Font("Nunito Sans Normal", 9F);
             dateLabel.ForeColor = Color.FromArgb(120, 116, 110);
-            dateLabel.Location = new Point(48, 18);
+            dateLabel.Location = new Point(24, 10);
             dateLabel.Name = "dateLabel";
             dateLabel.Size = new Size(180, 24);
             dateLabel.TabIndex = 2;
@@ -88,7 +92,8 @@ namespace FocusFlow
             pomodoroBadge.Font = new Font("Nunito Sans Normal SemiBold", 8.5F);
             pomodoroBadge.ForeColor = Color.White;
             pomodoroBadge.ImageAlign = ContentAlignment.MiddleLeft;
-            pomodoroBadge.Location = new Point(666, 14);
+            pomodoroBadge.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            pomodoroBadge.Location = new Point(620, 6);
             pomodoroBadge.Name = "pomodoroBadge";
             pomodoroBadge.Padding = new Padding(12, 0, 10, 0);
             pomodoroBadge.Size = new Size(220, 34);
@@ -104,7 +109,9 @@ namespace FocusFlow
             routineCard.Controls.Add(routineMeta);
             routineCard.Controls.Add(routineTitle);
             routineCard.Controls.Add(routineKicker);
-            routineCard.Location = new Point(24, 58);
+            routineCard.Dock = DockStyle.Fill;
+            routineCard.Margin = new Padding(0, 8, 8, 8);
+            routineCard.Location = new Point(27, 63);
             routineCard.Name = "routineCard";
             routineCard.Size = new Size(560, 128);
             routineCard.TabIndex = 4;
@@ -123,6 +130,7 @@ namespace FocusFlow
             // 
             routineTitle.Font = new Font("Nunito Sans Normal SemiBold", 13F);
             routineTitle.ForeColor = Color.FromArgb(32, 44, 62);
+            routineTitle.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             routineTitle.Location = new Point(20, 34);
             routineTitle.Name = "routineTitle";
             routineTitle.Size = new Size(340, 48);
@@ -133,6 +141,7 @@ namespace FocusFlow
             // 
             routineMeta.Font = new Font("Nunito Sans Normal", 8F);
             routineMeta.ForeColor = Color.FromArgb(120, 132, 128);
+            routineMeta.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             routineMeta.Location = new Point(20, 92);
             routineMeta.Name = "routineMeta";
             routineMeta.Size = new Size(340, 20);
@@ -150,6 +159,7 @@ namespace FocusFlow
             startBadge.Font = new Font("Nunito Sans Normal SemiBold", 8.5F);
             startBadge.ForeColor = Color.White;
             startBadge.ImageAlign = ContentAlignment.MiddleLeft;
+            startBadge.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             startBadge.Location = new Point(390, 36);
             startBadge.Name = "startBadge";
             startBadge.Padding = new Padding(10, 0, 8, 0);
@@ -167,7 +177,9 @@ namespace FocusFlow
             rhythmCard.Controls.Add(rhythmCaption);
             rhythmCard.Controls.Add(rhythmTrack);
             rhythmCard.Controls.Add(rhythmTitle);
-            rhythmCard.Location = new Point(600, 58);
+            rhythmCard.Dock = DockStyle.Fill;
+            rhythmCard.Margin = new Padding(8, 8, 0, 8);
+            rhythmCard.Location = new Point(599, 63);
             rhythmCard.Name = "rhythmCard";
             rhythmCard.Size = new Size(286, 128);
             rhythmCard.TabIndex = 5;
@@ -186,6 +198,7 @@ namespace FocusFlow
             // 
             rhythmTrack.BackColor = Color.FromArgb(230, 222, 210);
             rhythmTrack.Controls.Add(rhythmFill);
+            rhythmTrack.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             rhythmTrack.Location = new Point(18, 58);
             rhythmTrack.Name = "rhythmTrack";
             rhythmTrack.Size = new Size(250, 8);
@@ -204,6 +217,7 @@ namespace FocusFlow
             // 
             rhythmCaption.Font = new Font("Nunito Sans Normal", 8F);
             rhythmCaption.ForeColor = Color.FromArgb(120, 116, 110);
+            rhythmCaption.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             rhythmCaption.Location = new Point(18, 76);
             rhythmCaption.Name = "rhythmCaption";
             rhythmCaption.Size = new Size(250, 36);
@@ -218,7 +232,9 @@ namespace FocusFlow
             tasksCard.Controls.Add(taskRow2);
             tasksCard.Controls.Add(taskRow1);
             tasksCard.Controls.Add(tasksTitle);
-            tasksCard.Location = new Point(24, 202);
+            tasksCard.Dock = DockStyle.Fill;
+            tasksCard.Margin = new Padding(0, 8, 8, 0);
+            tasksCard.Location = new Point(27, 215);
             tasksCard.Name = "tasksCard";
             tasksCard.Size = new Size(560, 400);
             tasksCard.TabIndex = 6;
@@ -237,6 +253,7 @@ namespace FocusFlow
             // 
             tasksEmpty.Font = new Font("Nunito Sans Normal", 9.5F);
             tasksEmpty.ForeColor = Color.FromArgb(120, 116, 110);
+            tasksEmpty.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             tasksEmpty.Location = new Point(20, 64);
             tasksEmpty.Name = "tasksEmpty";
             tasksEmpty.Size = new Size(500, 48);
@@ -248,6 +265,7 @@ namespace FocusFlow
             taskRow1.BackColor = Color.FromArgb(248, 245, 241);
             taskRow1.Controls.Add(doneChip);
             taskRow1.Controls.Add(task1Label);
+            taskRow1.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             taskRow1.Location = new Point(20, 58);
             taskRow1.Name = "taskRow1";
             taskRow1.Size = new Size(520, 52);
@@ -258,6 +276,7 @@ namespace FocusFlow
             // 
             task1Label.Font = new Font("Nunito Sans Normal", 9.5F);
             task1Label.ForeColor = Color.FromArgb(55, 62, 72);
+            task1Label.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             task1Label.Location = new Point(16, 0);
             task1Label.Name = "task1Label";
             task1Label.Size = new Size(380, 52);
@@ -270,6 +289,7 @@ namespace FocusFlow
             doneChip.BackColor = Color.FromArgb(214, 232, 196);
             doneChip.Font = new Font("Nunito Sans Normal SemiBold", 8F);
             doneChip.ForeColor = Color.FromArgb(78, 124, 86);
+            doneChip.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             doneChip.Location = new Point(416, 12);
             doneChip.Name = "doneChip";
             doneChip.Size = new Size(88, 28);
@@ -281,6 +301,7 @@ namespace FocusFlow
             // 
             taskRow2.BackColor = Color.FromArgb(120, 164, 146);
             taskRow2.Controls.Add(taskRow2Body);
+            taskRow2.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             taskRow2.Location = new Point(20, 122);
             taskRow2.Name = "taskRow2";
             taskRow2.Padding = new Padding(1);
@@ -303,6 +324,7 @@ namespace FocusFlow
             // 
             task2Label.Font = new Font("Nunito Sans Normal", 9.5F);
             task2Label.ForeColor = Color.FromArgb(55, 62, 72);
+            task2Label.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             task2Label.Location = new Point(16, 0);
             task2Label.Name = "task2Label";
             task2Label.Size = new Size(360, 50);
@@ -315,6 +337,7 @@ namespace FocusFlow
             progressChip.BackColor = Color.FromArgb(98, 140, 120);
             progressChip.Font = new Font("Nunito Sans Normal SemiBold", 8F);
             progressChip.ForeColor = Color.White;
+            progressChip.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             progressChip.Location = new Point(392, 11);
             progressChip.Name = "progressChip";
             progressChip.Size = new Size(110, 28);
@@ -327,6 +350,7 @@ namespace FocusFlow
             taskRow3.BackColor = Color.FromArgb(248, 245, 241);
             taskRow3.Controls.Add(upcomingChip);
             taskRow3.Controls.Add(task3Label);
+            taskRow3.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             taskRow3.Location = new Point(20, 186);
             taskRow3.Name = "taskRow3";
             taskRow3.Size = new Size(520, 52);
@@ -337,6 +361,7 @@ namespace FocusFlow
             // 
             task3Label.Font = new Font("Nunito Sans Normal", 9.5F);
             task3Label.ForeColor = Color.FromArgb(55, 62, 72);
+            task3Label.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             task3Label.Location = new Point(16, 0);
             task3Label.Name = "task3Label";
             task3Label.Size = new Size(360, 52);
@@ -349,6 +374,7 @@ namespace FocusFlow
             upcomingChip.BackColor = Color.FromArgb(236, 228, 216);
             upcomingChip.Font = new Font("Nunito Sans Normal SemiBold", 8F);
             upcomingChip.ForeColor = Color.FromArgb(150, 128, 110);
+            upcomingChip.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             upcomingChip.Location = new Point(404, 12);
             upcomingChip.Name = "upcomingChip";
             upcomingChip.Size = new Size(100, 28);
@@ -361,7 +387,9 @@ namespace FocusFlow
             quoteCard.BackColor = Color.FromArgb(243, 234, 218);
             quoteCard.Controls.Add(quoteText);
             quoteCard.Controls.Add(quoteMark);
-            quoteCard.Location = new Point(600, 202);
+            quoteCard.Dock = DockStyle.Fill;
+            quoteCard.Margin = new Padding(8, 8, 0, 0);
+            quoteCard.Location = new Point(599, 215);
             quoteCard.Name = "quoteCard";
             quoteCard.Size = new Size(286, 400);
             quoteCard.TabIndex = 7;
@@ -380,24 +408,56 @@ namespace FocusFlow
             // 
             quoteText.Font = new Font("Nunito Sans Normal", 10F);
             quoteText.ForeColor = Color.FromArgb(90, 84, 76);
+            quoteText.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             quoteText.Location = new Point(22, 84);
             quoteText.Name = "quoteText";
             quoteText.Size = new Size(240, 110);
             quoteText.TabIndex = 1;
             quoteText.Text = "\"You don't have to finish everything at once. One micro-step is enough.\"";
             // 
+            // headerPanel
+            // 
+            headerPanel.BackColor = Color.FromArgb(250, 247, 242);
+            headerPanel.Controls.Add(pomodoroBadge);
+            headerPanel.Controls.Add(dateLabel);
+            headerPanel.Controls.Add(dateIcon);
+            headerPanel.Dock = DockStyle.Fill;
+            headerPanel.Location = new Point(27, 11);
+            headerPanel.Margin = new Padding(0);
+            headerPanel.Name = "headerPanel";
+            headerPanel.Size = new Size(856, 44);
+            headerPanel.TabIndex = 0;
+            // 
+            // pageLayout
+            // 
+            pageLayout.BackColor = Color.FromArgb(250, 247, 242);
+            pageLayout.ColumnCount = 2;
+            pageLayout.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 66F));
+            pageLayout.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 34F));
+            pageLayout.Controls.Add(headerPanel, 0, 0);
+            pageLayout.Controls.Add(routineCard, 0, 1);
+            pageLayout.Controls.Add(rhythmCard, 1, 1);
+            pageLayout.Controls.Add(tasksCard, 0, 2);
+            pageLayout.Controls.Add(quoteCard, 1, 2);
+            pageLayout.Dock = DockStyle.Fill;
+            pageLayout.Location = new Point(0, 0);
+            pageLayout.Margin = new Padding(0);
+            pageLayout.Name = "pageLayout";
+            pageLayout.Padding = new Padding(24, 8, 24, 24);
+            pageLayout.RowCount = 3;
+            pageLayout.RowStyles.Add(new RowStyle(SizeType.Absolute, 44F));
+            pageLayout.RowStyles.Add(new RowStyle(SizeType.Absolute, 144F));
+            pageLayout.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
+            pageLayout.Size = new Size(910, 680);
+            pageLayout.TabIndex = 0;
+            pageLayout.SetColumnSpan(headerPanel, 2);
+            // 
             // HomeDashboardControl
             // 
             AutoScaleDimensions = new SizeF(7F, 17F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(250, 247, 242);
-            Controls.Add(quoteCard);
-            Controls.Add(tasksCard);
-            Controls.Add(rhythmCard);
-            Controls.Add(routineCard);
-            Controls.Add(pomodoroBadge);
-            Controls.Add(dateLabel);
-            Controls.Add(dateIcon);
+            Controls.Add(pageLayout);
             Font = new Font("Nunito Sans Normal", 9F);
             Name = "HomeDashboardControl";
             Size = new Size(910, 680);
@@ -410,9 +470,13 @@ namespace FocusFlow
             taskRow2.ResumeLayout(false);
             taskRow3.ResumeLayout(false);
             quoteCard.ResumeLayout(false);
+            pageLayout.ResumeLayout(false);
+            headerPanel.ResumeLayout(false);
             ResumeLayout(false);
         }
 
+        private TableLayoutPanel pageLayout;
+        private Panel headerPanel;
         private Label dateIcon;
         private Label dateLabel;
         private Button pomodoroBadge;

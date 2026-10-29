@@ -5,16 +5,16 @@ namespace FocusFlow
         public FocusModeControl()
         {
             InitializeComponent();
-            UiShapes.ApplyPill(soundButton);
-            UiShapes.ApplyPill(exitButton);
-            UiShapes.ApplyPill(modeBar);
-            UiShapes.ApplyPill(focusModeButton);
-            UiShapes.ApplyPill(shortBreakButton);
-            UiShapes.ApplyPill(longBreakButton);
-            UiShapes.ApplyPill(timerRing);
-            UiShapes.ApplyPill(timerFace);
-            UiShapes.ApplyPill(pauseButton);
-            UiShapes.ApplyPill(skipButton);
+            UiShapes.KeepPill(soundButton);
+            UiShapes.KeepPill(exitButton);
+            UiShapes.KeepPill(modeBar);
+            UiShapes.KeepPill(focusModeButton);
+            UiShapes.KeepPill(shortBreakButton);
+            UiShapes.KeepPill(longBreakButton);
+            UiShapes.KeepPill(timerRing);
+            UiShapes.KeepPill(timerFace);
+            UiShapes.KeepPill(pauseButton);
+            UiShapes.KeepPill(skipButton);
         }
     }
 }

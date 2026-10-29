@@ -38,7 +38,7 @@ namespace FocusFlow
         {
             brandIcon.Image = new Bitmap(Image.FromFile(IconPath("icons8-cloud-100.png")), new Size(26, 26));
             pages[navHome] = new HomeDashboardControl();
-            pages[navDaily] = new DailyRoutineControl();
+            pages[navDaily] = new DailyRoutineControl(Profile);
             pages[navTasks] = new TaskBreakdownControl();
             pages[navFocus] = new FocusModeControl();
             pages[navProgress] = new GentleProgressControl();

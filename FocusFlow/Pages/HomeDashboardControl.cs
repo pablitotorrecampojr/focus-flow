@@ -10,19 +10,19 @@ namespace FocusFlow
             dateLabel.Text = DateTime.Now.ToString("dddd, MMM d");
             pomodoroBadge.Image = PlayIcon(Color.White, 12);
             startBadge.Image = PlayIcon(Color.White, 14);
-            UiShapes.ApplyPill(pomodoroBadge);
-            UiShapes.ApplyPill(startBadge);
-            UiShapes.ApplyPill(doneChip);
-            UiShapes.ApplyPill(progressChip);
-            UiShapes.ApplyPill(upcomingChip);
-            UiShapes.ApplyRounded(routineCard, 18);
-            UiShapes.ApplyRounded(rhythmCard, 18);
-            UiShapes.ApplyRounded(tasksCard, 18);
-            UiShapes.ApplyRounded(quoteCard, 18);
-            UiShapes.ApplyRounded(taskRow1, 14);
-            UiShapes.ApplyRounded(taskRow2, 14);
-            UiShapes.ApplyRounded(taskRow3, 14);
-            UiShapes.ApplyPill(rhythmTrack);
+            UiShapes.KeepPill(pomodoroBadge);
+            UiShapes.KeepPill(startBadge);
+            UiShapes.KeepPill(doneChip);
+            UiShapes.KeepPill(progressChip);
+            UiShapes.KeepPill(upcomingChip);
+            UiShapes.KeepRounded(routineCard, 18);
+            UiShapes.KeepRounded(rhythmCard, 18);
+            UiShapes.KeepRounded(tasksCard, 18);
+            UiShapes.KeepRounded(quoteCard, 18);
+            UiShapes.KeepRounded(taskRow1, 14);
+            UiShapes.KeepRounded(taskRow2, 14);
+            UiShapes.KeepRounded(taskRow3, 14);
+            UiShapes.KeepPill(rhythmTrack);
         }
 
         private static Bitmap PlayIcon(Color color, int size)

@@ -5,12 +5,12 @@ namespace FocusFlow
         public SettingsControl()
         {
             InitializeComponent();
-            UiShapes.ApplyPill(saveButton);
-            UiShapes.ApplyRounded(themeCard, 18);
-            UiShapes.ApplyRounded(themeSage, 12);
-            UiShapes.ApplyRounded(themeRose, 12);
-            UiShapes.ApplyRounded(themeBlue, 12);
-            UiShapes.ApplyRounded(typeCard, 18);
+            UiShapes.KeepPill(saveButton);
+            UiShapes.KeepRounded(themeCard, 18);
+            UiShapes.KeepRounded(themeSage, 12);
+            UiShapes.KeepRounded(themeRose, 12);
+            UiShapes.KeepRounded(themeBlue, 12);
+            UiShapes.KeepRounded(typeCard, 18);
         }
     }
 }

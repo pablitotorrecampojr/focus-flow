@@ -15,6 +15,8 @@ namespace FocusFlow
 
         private void InitializeComponent()
         {
+            pageLayout = new TableLayoutPanel();
+            headerPanel = new Panel();
             saveButton = new Button();
             themeCard = new Panel();
             themeTitle = new Label();
@@ -40,6 +42,8 @@ namespace FocusFlow
             themeRose.SuspendLayout();
             themeBlue.SuspendLayout();
             typeCard.SuspendLayout();
+            pageLayout.SuspendLayout();
+            headerPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)speechTrack).BeginInit();
             ((System.ComponentModel.ISupportInitialize)volumeTrack).BeginInit();
             SuspendLayout();
@@ -54,7 +58,8 @@ namespace FocusFlow
             saveButton.FlatStyle = FlatStyle.Flat;
             saveButton.Font = new Font("Nunito Sans Normal SemiBold", 8.5F);
             saveButton.ForeColor = Color.White;
-            saveButton.Location = new Point(730, 16);
+            saveButton.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            saveButton.Location = new Point(684, 8);
             saveButton.Name = "saveButton";
             saveButton.Size = new Size(156, 34);
             saveButton.TabIndex = 0;
@@ -68,7 +73,9 @@ namespace FocusFlow
             themeCard.Controls.Add(themeRose);
             themeCard.Controls.Add(themeSage);
             themeCard.Controls.Add(themeTitle);
-            themeCard.Location = new Point(24, 68);
+            themeCard.Dock = DockStyle.Fill;
+            themeCard.Margin = new Padding(0, 8, 8, 0);
+            themeCard.Location = new Point(27, 67);
             themeCard.Name = "themeCard";
             themeCard.Size = new Size(420, 520);
             themeCard.TabIndex = 1;
@@ -88,6 +95,7 @@ namespace FocusFlow
             themeSage.BackColor = Color.FromArgb(226, 239, 230);
             themeSage.Controls.Add(sageMark);
             themeSage.Controls.Add(sageLabel);
+            themeSage.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             themeSage.Location = new Point(20, 64);
             themeSage.Name = "themeSage";
             themeSage.Size = new Size(380, 56);
@@ -97,6 +105,7 @@ namespace FocusFlow
             // 
             sageLabel.Font = new Font("Nunito Sans Normal SemiBold", 10F);
             sageLabel.ForeColor = Color.FromArgb(32, 44, 62);
+            sageLabel.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             sageLabel.Location = new Point(16, 0);
             sageLabel.Name = "sageLabel";
             sageLabel.Size = new Size(280, 56);
@@ -108,6 +117,7 @@ namespace FocusFlow
             // 
             sageMark.Font = new Font("Nunito Sans Normal SemiBold", 12F);
             sageMark.ForeColor = Color.FromArgb(102, 145, 124);
+            sageMark.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             sageMark.Location = new Point(320, 0);
             sageMark.Name = "sageMark";
             sageMark.Size = new Size(40, 56);
@@ -120,6 +130,7 @@ namespace FocusFlow
             themeRose.BackColor = Color.FromArgb(246, 230, 232);
             themeRose.Controls.Add(roseMark);
             themeRose.Controls.Add(roseLabel);
+            themeRose.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             themeRose.Location = new Point(20, 136);
             themeRose.Name = "themeRose";
             themeRose.Size = new Size(380, 56);
@@ -129,6 +140,7 @@ namespace FocusFlow
             // 
             roseLabel.Font = new Font("Nunito Sans Normal", 10F);
             roseLabel.ForeColor = Color.FromArgb(32, 44, 62);
+            roseLabel.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             roseLabel.Location = new Point(16, 0);
             roseLabel.Name = "roseLabel";
             roseLabel.Size = new Size(280, 56);
@@ -140,6 +152,7 @@ namespace FocusFlow
             // 
             roseMark.Font = new Font("Nunito Sans Normal", 14F);
             roseMark.ForeColor = Color.FromArgb(190, 160, 164);
+            roseMark.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             roseMark.Location = new Point(320, 0);
             roseMark.Name = "roseMark";
             roseMark.Size = new Size(40, 56);
@@ -152,6 +165,7 @@ namespace FocusFlow
             themeBlue.BackColor = Color.FromArgb(226, 234, 242);
             themeBlue.Controls.Add(blueMark);
             themeBlue.Controls.Add(blueLabel);
+            themeBlue.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             themeBlue.Location = new Point(20, 208);
             themeBlue.Name = "themeBlue";
             themeBlue.Size = new Size(380, 56);
@@ -161,6 +175,7 @@ namespace FocusFlow
             // 
             blueLabel.Font = new Font("Nunito Sans Normal", 10F);
             blueLabel.ForeColor = Color.FromArgb(32, 44, 62);
+            blueLabel.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             blueLabel.Location = new Point(16, 0);
             blueLabel.Name = "blueLabel";
             blueLabel.Size = new Size(280, 56);
@@ -172,6 +187,7 @@ namespace FocusFlow
             // 
             blueMark.Font = new Font("Nunito Sans Normal", 14F);
             blueMark.ForeColor = Color.FromArgb(160, 176, 190);
+            blueMark.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             blueMark.Location = new Point(320, 0);
             blueMark.Name = "blueMark";
             blueMark.Size = new Size(40, 56);
@@ -189,7 +205,9 @@ namespace FocusFlow
             typeCard.Controls.Add(fontChoice);
             typeCard.Controls.Add(fontLabel);
             typeCard.Controls.Add(typeTitle);
-            typeCard.Location = new Point(460, 68);
+            typeCard.Dock = DockStyle.Fill;
+            typeCard.Margin = new Padding(8, 8, 0, 0);
+            typeCard.Location = new Point(455, 67);
             typeCard.Name = "typeCard";
             typeCard.Size = new Size(426, 520);
             typeCard.TabIndex = 2;
@@ -222,6 +240,7 @@ namespace FocusFlow
             fontChoice.Font = new Font("Nunito Sans Normal", 9.5F);
             fontChoice.ForeColor = Color.FromArgb(32, 44, 62);
             fontChoice.Items.AddRange(new object[] { "Clean Sans (Nunito Rounded)" });
+            fontChoice.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             fontChoice.Location = new Point(20, 90);
             fontChoice.Name = "fontChoice";
             fontChoice.Size = new Size(380, 28);
@@ -242,6 +261,7 @@ namespace FocusFlow
             // 
             speechTrack.AutoSize = false;
             speechTrack.BackColor = Color.White;
+            speechTrack.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             speechTrack.Location = new Point(20, 164);
             speechTrack.Maximum = 100;
             speechTrack.Name = "speechTrack";
@@ -264,6 +284,7 @@ namespace FocusFlow
             // 
             volumeTrack.AutoSize = false;
             volumeTrack.BackColor = Color.White;
+            volumeTrack.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             volumeTrack.Location = new Point(20, 238);
             volumeTrack.Maximum = 100;
             volumeTrack.Name = "volumeTrack";
@@ -272,14 +293,43 @@ namespace FocusFlow
             volumeTrack.TickStyle = TickStyle.None;
             volumeTrack.Value = 40;
             // 
+            // headerPanel
+            // 
+            headerPanel.BackColor = Color.FromArgb(250, 247, 242);
+            headerPanel.Controls.Add(saveButton);
+            headerPanel.Dock = DockStyle.Fill;
+            headerPanel.Location = new Point(27, 11);
+            headerPanel.Margin = new Padding(0, 0, 0, 8);
+            headerPanel.Name = "headerPanel";
+            headerPanel.Size = new Size(856, 50);
+            headerPanel.TabIndex = 0;
+            // 
+            // pageLayout
+            // 
+            pageLayout.BackColor = Color.FromArgb(250, 247, 242);
+            pageLayout.ColumnCount = 2;
+            pageLayout.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
+            pageLayout.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
+            pageLayout.Controls.Add(headerPanel, 0, 0);
+            pageLayout.Controls.Add(themeCard, 0, 1);
+            pageLayout.Controls.Add(typeCard, 1, 1);
+            pageLayout.Dock = DockStyle.Fill;
+            pageLayout.Location = new Point(0, 0);
+            pageLayout.Name = "pageLayout";
+            pageLayout.Padding = new Padding(24, 8, 24, 24);
+            pageLayout.RowCount = 2;
+            pageLayout.RowStyles.Add(new RowStyle(SizeType.Absolute, 58F));
+            pageLayout.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
+            pageLayout.Size = new Size(910, 680);
+            pageLayout.TabIndex = 0;
+            pageLayout.SetColumnSpan(headerPanel, 2);
+            // 
             // SettingsControl
             // 
             AutoScaleDimensions = new SizeF(7F, 17F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(250, 247, 242);
-            Controls.Add(typeCard);
-            Controls.Add(themeCard);
-            Controls.Add(saveButton);
+            Controls.Add(pageLayout);
             Font = new Font("Nunito Sans Normal", 9F);
             Name = "SettingsControl";
             Size = new Size(910, 680);
@@ -290,9 +340,13 @@ namespace FocusFlow
             typeCard.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)speechTrack).EndInit();
             ((System.ComponentModel.ISupportInitialize)volumeTrack).EndInit();
+            pageLayout.ResumeLayout(false);
+            headerPanel.ResumeLayout(false);
             ResumeLayout(false);
         }
 
+        private TableLayoutPanel pageLayout;
+        private Panel headerPanel;
         private Button saveButton;
         private Panel themeCard;
         private Label themeTitle;

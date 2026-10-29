@@ -11,8 +11,7 @@ namespace FocusFlow
             UiShapes.ApplyPill(guestModeBtn);
             guestModeBtn.Resize += (_, _) => UiShapes.ApplyPill(guestModeBtn);
             LoadProfiles();
-            Resize += (_, _) => FitProfilesPanel();
-            CenterGuestButton();
+            profilesPanel.Resize += (_, _) => CenterProfileCards();
         }
 
         private void LoadIcons()
@@ -55,7 +54,7 @@ namespace FocusFlow
                 }
             }
 
-            FitProfilesPanel();
+            CenterProfileCards();
         }
 
         private void ScrollProfilesHorizontally(object? sender, MouseEventArgs e)
@@ -109,16 +108,20 @@ namespace FocusFlow
             LoadProfiles();
         }
 
-        private void FitProfilesPanel()
+        private void CenterProfileCards()
         {
-            profilesPanel.Height = 216 + 16 + SystemInformation.HorizontalScrollBarHeight;
-            guestModeBtn.Top = profilesPanel.Bottom + 18;
-            CenterGuestButton();
-        }
+            int contentWidth = 0;
+            foreach (Control card in profilesPanel.Controls)
+            {
+                contentWidth += card.Margin.Left + card.Width + card.Margin.Right;
+            }
 
-        private void CenterGuestButton()
-        {
-            guestModeBtn.Left = Math.Max(16, (ClientSize.Width - guestModeBtn.Width) / 2);
+            int inner = profilesPanel.ClientSize.Width > 0 ? profilesPanel.ClientSize.Width : profilesPanel.Width;
+            int pad = Math.Max(0, (inner - contentWidth) / 2);
+            if (profilesPanel.Padding.Left != pad)
+            {
+                profilesPanel.Padding = new Padding(pad, 8, 0, 8);
+            }
         }
     }
 }

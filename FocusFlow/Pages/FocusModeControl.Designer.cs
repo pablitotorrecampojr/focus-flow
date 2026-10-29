@@ -15,6 +15,9 @@ namespace FocusFlow
 
         private void InitializeComponent()
         {
+            pageLayout = new TableLayoutPanel();
+            headerPanel = new Panel();
+            actionPanel = new Panel();
             soundButton = new Button();
             exitButton = new Button();
             modeBar = new Panel();
@@ -32,6 +35,9 @@ namespace FocusFlow
             modeBar.SuspendLayout();
             timerRing.SuspendLayout();
             timerFace.SuspendLayout();
+            pageLayout.SuspendLayout();
+            headerPanel.SuspendLayout();
+            actionPanel.SuspendLayout();
             SuspendLayout();
             // 
             // soundButton
@@ -44,7 +50,8 @@ namespace FocusFlow
             soundButton.FlatStyle = FlatStyle.Flat;
             soundButton.Font = new Font("Nunito Sans Normal", 8.5F);
             soundButton.ForeColor = Color.FromArgb(74, 84, 92);
-            soundButton.Location = new Point(560, 20);
+            soundButton.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            soundButton.Location = new Point(560, 14);
             soundButton.Name = "soundButton";
             soundButton.Size = new Size(160, 34);
             soundButton.TabIndex = 0;
@@ -61,7 +68,8 @@ namespace FocusFlow
             exitButton.FlatStyle = FlatStyle.Flat;
             exitButton.Font = new Font("Nunito Sans Normal", 8.5F);
             exitButton.ForeColor = Color.FromArgb(74, 84, 92);
-            exitButton.Location = new Point(732, 20);
+            exitButton.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            exitButton.Location = new Point(732, 14);
             exitButton.Name = "exitButton";
             exitButton.Size = new Size(140, 34);
             exitButton.TabIndex = 1;
@@ -74,7 +82,9 @@ namespace FocusFlow
             modeBar.Controls.Add(longBreakButton);
             modeBar.Controls.Add(shortBreakButton);
             modeBar.Controls.Add(focusModeButton);
-            modeBar.Location = new Point(250, 120);
+            modeBar.Anchor = AnchorStyles.None;
+            modeBar.Margin = new Padding(0, 8, 0, 0);
+            modeBar.Location = new Point(250, 72);
             modeBar.Name = "modeBar";
             modeBar.Size = new Size(410, 42);
             modeBar.TabIndex = 2;
@@ -134,7 +144,9 @@ namespace FocusFlow
             // 
             sessionLabel.Font = new Font("Nunito Sans Normal", 9.5F);
             sessionLabel.ForeColor = Color.FromArgb(90, 120, 108);
-            sessionLabel.Location = new Point(180, 176);
+            sessionLabel.Dock = DockStyle.Fill;
+            sessionLabel.Margin = new Padding(24, 12, 24, 0);
+            sessionLabel.Location = new Point(27, 130);
             sessionLabel.Name = "sessionLabel";
             sessionLabel.Size = new Size(550, 24);
             sessionLabel.TabIndex = 3;
@@ -145,7 +157,9 @@ namespace FocusFlow
             // 
             timerRing.BackColor = Color.FromArgb(168, 196, 180);
             timerRing.Controls.Add(timerFace);
-            timerRing.Location = new Point(365, 214);
+            timerRing.Anchor = AnchorStyles.None;
+            timerRing.Margin = new Padding(0, 12, 0, 0);
+            timerRing.Location = new Point(365, 166);
             timerRing.Name = "timerRing";
             timerRing.Size = new Size(180, 180);
             timerRing.TabIndex = 4;
@@ -192,7 +206,7 @@ namespace FocusFlow
             pauseButton.FlatStyle = FlatStyle.Flat;
             pauseButton.Font = new Font("Nunito Sans Normal SemiBold", 9F);
             pauseButton.ForeColor = Color.White;
-            pauseButton.Location = new Point(292, 420);
+            pauseButton.Location = new Point(0, 0);
             pauseButton.Name = "pauseButton";
             pauseButton.Size = new Size(150, 40);
             pauseButton.TabIndex = 5;
@@ -210,7 +224,7 @@ namespace FocusFlow
             skipButton.FlatStyle = FlatStyle.Flat;
             skipButton.Font = new Font("Nunito Sans Normal SemiBold", 9F);
             skipButton.ForeColor = Color.FromArgb(74, 84, 92);
-            skipButton.Location = new Point(456, 420);
+            skipButton.Location = new Point(164, 0);
             skipButton.Name = "skipButton";
             skipButton.Size = new Size(150, 40);
             skipButton.TabIndex = 6;
@@ -221,35 +235,91 @@ namespace FocusFlow
             // 
             helpLabel.Font = new Font("Nunito Sans Normal", 9F);
             helpLabel.ForeColor = Color.FromArgb(90, 120, 108);
-            helpLabel.Location = new Point(180, 500);
+            helpLabel.Dock = DockStyle.Fill;
+            helpLabel.Margin = new Padding(24, 12, 24, 0);
+            helpLabel.Location = new Point(27, 400);
             helpLabel.Name = "helpLabel";
             helpLabel.Size = new Size(550, 24);
             helpLabel.TabIndex = 7;
             helpLabel.Text = "I'm Feeling Stuck / Need Help";
             helpLabel.TextAlign = ContentAlignment.MiddleCenter;
             // 
+            // headerPanel
+            // 
+            headerPanel.BackColor = Color.FromArgb(236, 242, 238);
+            headerPanel.Controls.Add(exitButton);
+            headerPanel.Controls.Add(soundButton);
+            headerPanel.Dock = DockStyle.Fill;
+            headerPanel.Location = new Point(3, 3);
+            headerPanel.Margin = new Padding(0);
+            headerPanel.Name = "headerPanel";
+            headerPanel.Size = new Size(904, 64);
+            headerPanel.TabIndex = 0;
+            // 
+            // actionPanel
+            // 
+            actionPanel.Anchor = AnchorStyles.None;
+            actionPanel.BackColor = Color.FromArgb(236, 242, 238);
+            actionPanel.Controls.Add(skipButton);
+            actionPanel.Controls.Add(pauseButton);
+            actionPanel.Location = new Point(298, 360);
+            actionPanel.Margin = new Padding(0, 16, 0, 0);
+            actionPanel.Name = "actionPanel";
+            actionPanel.Size = new Size(314, 40);
+            actionPanel.TabIndex = 6;
+            // 
+            // pageLayout
+            // 
+            pageLayout.BackColor = Color.FromArgb(236, 242, 238);
+            pageLayout.ColumnCount = 3;
+            pageLayout.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
+            pageLayout.ColumnStyles.Add(new ColumnStyle(SizeType.AutoSize));
+            pageLayout.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
+            pageLayout.Controls.Add(headerPanel, 0, 0);
+            pageLayout.Controls.Add(modeBar, 1, 2);
+            pageLayout.Controls.Add(sessionLabel, 0, 3);
+            pageLayout.Controls.Add(timerRing, 1, 4);
+            pageLayout.Controls.Add(actionPanel, 1, 5);
+            pageLayout.Controls.Add(helpLabel, 0, 6);
+            pageLayout.Dock = DockStyle.Fill;
+            pageLayout.Location = new Point(0, 0);
+            pageLayout.Name = "pageLayout";
+            pageLayout.RowCount = 8;
+            pageLayout.RowStyles.Add(new RowStyle(SizeType.Absolute, 64F));
+            pageLayout.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
+            pageLayout.RowStyles.Add(new RowStyle(SizeType.AutoSize));
+            pageLayout.RowStyles.Add(new RowStyle(SizeType.Absolute, 36F));
+            pageLayout.RowStyles.Add(new RowStyle(SizeType.AutoSize));
+            pageLayout.RowStyles.Add(new RowStyle(SizeType.AutoSize));
+            pageLayout.RowStyles.Add(new RowStyle(SizeType.Absolute, 40F));
+            pageLayout.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
+            pageLayout.Size = new Size(910, 680);
+            pageLayout.TabIndex = 0;
+            pageLayout.SetColumnSpan(headerPanel, 3);
+            pageLayout.SetColumnSpan(sessionLabel, 3);
+            pageLayout.SetColumnSpan(helpLabel, 3);
+            // 
             // FocusModeControl
             // 
             AutoScaleDimensions = new SizeF(7F, 17F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(236, 242, 238);
-            Controls.Add(helpLabel);
-            Controls.Add(skipButton);
-            Controls.Add(pauseButton);
-            Controls.Add(timerRing);
-            Controls.Add(sessionLabel);
-            Controls.Add(modeBar);
-            Controls.Add(exitButton);
-            Controls.Add(soundButton);
+            Controls.Add(pageLayout);
             Font = new Font("Nunito Sans Normal", 9F);
             Name = "FocusModeControl";
             Size = new Size(910, 680);
             modeBar.ResumeLayout(false);
             timerFace.ResumeLayout(false);
             timerRing.ResumeLayout(false);
+            pageLayout.ResumeLayout(false);
+            headerPanel.ResumeLayout(false);
+            actionPanel.ResumeLayout(false);
             ResumeLayout(false);
         }
 
+        private TableLayoutPanel pageLayout;
+        private Panel headerPanel;
+        private Panel actionPanel;
         private Button soundButton;
         private Button exitButton;
         private Panel modeBar;

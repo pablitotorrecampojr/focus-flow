@@ -9,6 +9,18 @@ namespace FocusFlow
             ApplyRounded(control, control.Height / 2);
         }
 
+        public static void KeepPill(Control control)
+        {
+            control.Resize += (_, _) => ApplyPill(control);
+            ApplyPill(control);
+        }
+
+        public static void KeepRounded(Control control, int radius)
+        {
+            control.Resize += (_, _) => ApplyRounded(control, radius);
+            ApplyRounded(control, radius);
+        }
+
         public static void ApplyRounded(Control control, int radius)
         {
             var bounds = control.ClientRectangle;
