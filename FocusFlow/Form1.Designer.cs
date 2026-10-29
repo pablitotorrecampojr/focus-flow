@@ -31,6 +31,8 @@
             audio_prompt_btn = new Button();
             brandIcon = new PictureBox();
             brandTitle = new Label();
+            welcomeLabel = new Label();
+            ((System.ComponentModel.ISupportInitialize)brandIcon).BeginInit();
             SuspendLayout();
             // 
             // audio_prompt_btn
@@ -42,7 +44,7 @@
             audio_prompt_btn.FlatAppearance.MouseDownBackColor = Color.FromArgb(228, 214, 238);
             audio_prompt_btn.FlatAppearance.MouseOverBackColor = Color.FromArgb(236, 226, 244);
             audio_prompt_btn.FlatStyle = FlatStyle.Flat;
-            audio_prompt_btn.Font = new Font("Segoe UI", 8F);
+            audio_prompt_btn.Font = new Font("Nunito Sans Normal", 8F);
             audio_prompt_btn.ForeColor = Color.FromArgb(110, 94, 120);
             audio_prompt_btn.ImageAlign = ContentAlignment.MiddleLeft;
             audio_prompt_btn.Location = new Point(626, 16);
@@ -51,7 +53,6 @@
             audio_prompt_btn.Size = new Size(150, 28);
             audio_prompt_btn.TabIndex = 0;
             audio_prompt_btn.Text = "TTS Audio Prompt";
-            audio_prompt_btn.TextAlign = ContentAlignment.MiddleCenter;
             audio_prompt_btn.TextImageRelation = TextImageRelation.ImageBeforeText;
             audio_prompt_btn.UseVisualStyleBackColor = false;
             // 
@@ -69,26 +70,42 @@
             // 
             brandTitle.AutoSize = true;
             brandTitle.BackColor = Color.Transparent;
-            brandTitle.Font = new Font("Segoe UI Semibold", 16F, FontStyle.Regular, GraphicsUnit.Point);
-            brandTitle.ForeColor = Color.FromArgb(58, 63, 69);
-            brandTitle.Location = new Point(64, 15);
+            brandTitle.Font = new Font("Nunito Sans Normal SemiBold", 16F);
             brandTitle.ForeColor = Color.FromArgb(114, 154, 138);
+            brandTitle.Location = new Point(64, 15);
             brandTitle.Name = "brandTitle";
+            brandTitle.Size = new Size(116, 30);
             brandTitle.TabIndex = 2;
             brandTitle.Text = "FocusFlow";
+            // 
+            // welcomeLabel
+            // 
+            welcomeLabel.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            welcomeLabel.BackColor = Color.Transparent;
+            welcomeLabel.Font = new Font("Nunito Sans Normal SemiBold", 20F);
+            welcomeLabel.ForeColor = Color.FromArgb(36, 48, 68);
+            welcomeLabel.Location = new Point(0, 80);
+            welcomeLabel.Name = "welcomeLabel";
+            welcomeLabel.Size = new Size(824, 44);
+            welcomeLabel.TabIndex = 3;
+            welcomeLabel.Text = "Welcome back! How are you feeling today?";
+            welcomeLabel.TextAlign = ContentAlignment.MiddleCenter;
             // 
             // ProfilePickerForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
+            Font = new Font("Nunito Sans Normal", 9F);
             BackColor = Color.FromArgb(250, 247, 242);
-            ClientSize = new Size(800, 450);
+            ClientSize = new Size(824, 461);
+            Controls.Add(welcomeLabel);
             Controls.Add(brandTitle);
             Controls.Add(brandIcon);
             Controls.Add(audio_prompt_btn);
             MinimumSize = new Size(840, 500);
             Name = "ProfilePickerForm";
             Text = "Profile Picker";
+            ((System.ComponentModel.ISupportInitialize)brandIcon).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -98,5 +115,6 @@
         private Button audio_prompt_btn;
         private PictureBox brandIcon;
         private Label brandTitle;
+        private Label welcomeLabel;
     }
 }

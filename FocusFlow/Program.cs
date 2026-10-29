@@ -11,6 +11,7 @@ namespace FocusFlow
             // To customize application configuration such as set high DPI settings or default font,
             // see https://aka.ms/applicationconfiguration.
             ApplicationConfiguration.Initialize();
+            Application.SetDefaultFont(new Font("Nunito Sans Normal", 9F));
             AppDatabase.Initialize();
             Application.Run(new ProfilePickerForm());
         }
