@@ -32,6 +32,8 @@
             brandIcon = new PictureBox();
             brandTitle = new Label();
             welcomeLabel = new Label();
+            profilesPanel = new FlowLayoutPanel();
+            guestModeBtn = new Button();
             ((System.ComponentModel.ISupportInitialize)brandIcon).BeginInit();
             SuspendLayout();
             // 
@@ -74,7 +76,7 @@
             brandTitle.ForeColor = Color.FromArgb(114, 154, 138);
             brandTitle.Location = new Point(64, 15);
             brandTitle.Name = "brandTitle";
-            brandTitle.Size = new Size(116, 30);
+            brandTitle.Size = new Size(122, 31);
             brandTitle.TabIndex = 2;
             brandTitle.Text = "FocusFlow";
             // 
@@ -91,17 +93,50 @@
             welcomeLabel.Text = "Welcome back! How are you feeling today?";
             welcomeLabel.TextAlign = ContentAlignment.MiddleCenter;
             // 
+            // profilesPanel
+            // 
+            profilesPanel.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            profilesPanel.AutoScroll = true;
+            profilesPanel.BackColor = Color.FromArgb(250, 247, 242);
+            profilesPanel.FlowDirection = FlowDirection.LeftToRight;
+            profilesPanel.Location = new Point(24, 140);
+            profilesPanel.Margin = new Padding(0);
+            profilesPanel.Name = "profilesPanel";
+            profilesPanel.Size = new Size(776, 252);
+            profilesPanel.TabIndex = 4;
+            profilesPanel.WrapContents = false;
+            // 
+            // guestModeBtn
+            // 
+            guestModeBtn.Anchor = AnchorStyles.Top;
+            guestModeBtn.BackColor = Color.FromArgb(250, 220, 208);
+            guestModeBtn.Cursor = Cursors.Hand;
+            guestModeBtn.FlatAppearance.BorderSize = 0;
+            guestModeBtn.FlatAppearance.MouseDownBackColor = Color.FromArgb(236, 196, 180);
+            guestModeBtn.FlatAppearance.MouseOverBackColor = Color.FromArgb(244, 208, 194);
+            guestModeBtn.FlatStyle = FlatStyle.Flat;
+            guestModeBtn.Font = new Font("Nunito Sans Normal", 9F);
+            guestModeBtn.ForeColor = Color.FromArgb(176, 106, 96);
+            guestModeBtn.Location = new Point(292, 408);
+            guestModeBtn.Name = "guestModeBtn";
+            guestModeBtn.Size = new Size(240, 34);
+            guestModeBtn.TabIndex = 5;
+            guestModeBtn.Text = "Quick Start / Guest Mode";
+            guestModeBtn.UseVisualStyleBackColor = false;
+            // 
             // ProfilePickerForm
             // 
-            AutoScaleDimensions = new SizeF(7F, 15F);
+            AutoScaleDimensions = new SizeF(7F, 17F);
             AutoScaleMode = AutoScaleMode.Font;
-            Font = new Font("Nunito Sans Normal", 9F);
             BackColor = Color.FromArgb(250, 247, 242);
-            ClientSize = new Size(824, 461);
+            ClientSize = new Size(824, 530);
+            Controls.Add(guestModeBtn);
+            Controls.Add(profilesPanel);
             Controls.Add(welcomeLabel);
             Controls.Add(brandTitle);
             Controls.Add(brandIcon);
             Controls.Add(audio_prompt_btn);
+            Font = new Font("Nunito Sans Normal", 9F);
             MinimumSize = new Size(840, 500);
             Name = "ProfilePickerForm";
             Text = "Profile Picker";
@@ -116,5 +151,7 @@
         private PictureBox brandIcon;
         private Label brandTitle;
         private Label welcomeLabel;
+        private FlowLayoutPanel profilesPanel;
+        private Button guestModeBtn;
     }
 }
