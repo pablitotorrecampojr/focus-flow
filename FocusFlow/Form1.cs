@@ -7,34 +7,22 @@ namespace FocusFlow
         public ProfilePickerForm()
         {
             InitializeComponent();
-            BackColor = Color.FromArgb(250, 247, 242);
-            StyleAudioPromptButton();
+            LoadIcons();
+            ApplyPillShape(audio_prompt_btn);
+            audio_prompt_btn.Resize += (_, _) => ApplyPillShape(audio_prompt_btn);
         }
 
-        private void StyleAudioPromptButton()
+        private void LoadIcons()
         {
-            audio_prompt_btn.Text = "TTS Audio Prompt";
-            audio_prompt_btn.Font = new Font("Segoe UI", 8F);
-            audio_prompt_btn.ForeColor = Color.FromArgb(110, 94, 120);
-            audio_prompt_btn.BackColor = Color.FromArgb(244, 234, 246);
-            audio_prompt_btn.FlatStyle = FlatStyle.Flat;
-            audio_prompt_btn.FlatAppearance.BorderSize = 0;
-            audio_prompt_btn.FlatAppearance.MouseOverBackColor = Color.FromArgb(236, 226, 244);
-            audio_prompt_btn.FlatAppearance.MouseDownBackColor = Color.FromArgb(228, 214, 238);
-            audio_prompt_btn.UseVisualStyleBackColor = false;
-            audio_prompt_btn.Size = new Size(150, 28);
-            audio_prompt_btn.Cursor = Cursors.Hand;
-            audio_prompt_btn.TextImageRelation = TextImageRelation.ImageBeforeText;
-            audio_prompt_btn.ImageAlign = ContentAlignment.MiddleLeft;
-            audio_prompt_btn.TextAlign = ContentAlignment.MiddleCenter;
-            audio_prompt_btn.Padding = new Padding(8, 0, 8, 0);
+            brandIcon.Image = LoadIcon("icons8-cloud-100.png", brandIcon.Width);
+            audio_prompt_btn.Image = LoadIcon("icons8-speaker-100.png", audio_prompt_btn.Height / 2);
+        }
 
-            var iconPath = Path.Combine(AppContext.BaseDirectory, "icons", "icons8-speaker-100.png");
+        private static Bitmap LoadIcon(string fileName, int size)
+        {
+            var iconPath = Path.Combine(AppContext.BaseDirectory, "icons", fileName);
             using var source = Image.FromFile(iconPath);
-            audio_prompt_btn.Image = new Bitmap(source, new Size(14, 14));
-
-            audio_prompt_btn.Resize += (_, _) => ApplyPillShape(audio_prompt_btn);
-            ApplyPillShape(audio_prompt_btn);
+            return new Bitmap(source, new Size(size, size));
         }
 
         private static void ApplyPillShape(Button button)
