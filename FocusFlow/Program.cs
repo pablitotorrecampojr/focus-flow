@@ -11,6 +11,7 @@ namespace FocusFlow
             // To customize application configuration such as set high DPI settings or default font,
             // see https://aka.ms/applicationconfiguration.
             ApplicationConfiguration.Initialize();
+            AppDatabase.Initialize();
             Application.Run(new ProfilePickerForm());
         }
     }
