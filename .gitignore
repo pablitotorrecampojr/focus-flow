@@ -1,0 +1,29 @@
+# Build results
+[Bb]in/
+[Oo]bj/
+[Ll]og/
+[Ll]ogs/
+
+# Visual Studio
+.vs/
+*.rsuser
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+*.userprefs
+
+# NuGet
+*.nupkg
+**/[Pp]ackages/*
+!**/[Pp]ackages/build/
+
+# Test and coverage
+[Tt]est[Rr]esult*/
+*.coverage
+*.coveragexml
+
+# OS
+[Dd]esktop.ini
+Thumbs.db
+ehthumbs.db
