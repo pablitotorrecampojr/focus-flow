@@ -28,18 +28,31 @@
         /// </summary>
         private void InitializeComponent()
         {
+            audio_prompt_btn = new Button();
             SuspendLayout();
+            // 
+            // audio_prompt_btn
+            // 
+            audio_prompt_btn.Location = new Point(642, 12);
+            audio_prompt_btn.Name = "audio_prompt_btn";
+            audio_prompt_btn.Size = new Size(134, 23);
+            audio_prompt_btn.TabIndex = 0;
+            audio_prompt_btn.Text = "Audio Prompt";
+            audio_prompt_btn.UseVisualStyleBackColor = true;
             // 
             // ProfilePickerForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 450);
+            Controls.Add(audio_prompt_btn);
             Name = "ProfilePickerForm";
             Text = "Profile Picker";
             ResumeLayout(false);
         }
 
         #endregion
+
+        private Button audio_prompt_btn;
     }
 }
