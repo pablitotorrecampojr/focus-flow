@@ -91,6 +91,10 @@ namespace FocusFlow
             }
 
             welcomeLabel.Text = $"Welcome back, {profile.Name.Split(' ')[0]}";
+            Hide();
+            using var main = new MainForm(profile);
+            main.ShowDialog(this);
+            Show();
         }
 
         private void AddProfile()
