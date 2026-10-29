@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             sidePanel = new Panel();
+            contentHost = new Panel();
             navSettings = new Button();
             navProgress = new Button();
             navFocus = new Button();
@@ -57,6 +58,15 @@
             sidePanel.Name = "sidePanel";
             sidePanel.Size = new Size(190, 450);
             sidePanel.TabIndex = 0;
+            // 
+            // contentHost
+            // 
+            contentHost.BackColor = Color.FromArgb(250, 247, 242);
+            contentHost.Dock = DockStyle.Fill;
+            contentHost.Location = new Point(0, 0);
+            contentHost.Name = "contentHost";
+            contentHost.Size = new Size(800, 450);
+            contentHost.TabIndex = 1;
             // 
             // navSettings
             // 
@@ -211,7 +221,9 @@
             AutoScaleDimensions = new SizeF(7F, 17F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(250, 247, 242);
-            ClientSize = new Size(800, 450);
+            ClientSize = new Size(1100, 680);
+            MinimumSize = new Size(980, 640);
+            Controls.Add(contentHost);
             Controls.Add(sidePanel);
             Font = new Font("Nunito Sans Normal", 9F);
             Name = "MainForm";
@@ -225,6 +237,7 @@
         #endregion
 
         private Panel sidePanel;
+        private Panel contentHost;
         private PictureBox brandIcon;
         private Label brandTitle;
         private Button navHome;

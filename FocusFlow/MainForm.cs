@@ -31,11 +31,28 @@ namespace FocusFlow
         private readonly Dictionary<Button, string> navCaptions = new();
         private readonly Dictionary<Button, Image> idleIcons = new();
         private readonly Dictionary<Button, Image> activeIcons = new();
+        private readonly Dictionary<Button, UserControl> pages = new();
         private Button? activeNav;
 
         private void StyleNavigation()
         {
             brandIcon.Image = new Bitmap(Image.FromFile(IconPath("icons8-cloud-100.png")), new Size(26, 26));
+            pages[navHome] = new HomeDashboardControl();
+            pages[navDaily] = new DailyRoutineControl();
+            pages[navTasks] = new TaskBreakdownControl();
+            pages[navFocus] = new FocusModeControl();
+            pages[navProgress] = new GentleProgressControl();
+            pages[navSettings] = new SettingsControl();
+            FormClosed += (_, _) =>
+            {
+                foreach (UserControl page in pages.Values)
+                {
+                    if (page.Parent == null)
+                    {
+                        page.Dispose();
+                    }
+                }
+            };
             RegisterNav(navHome, TintIcon("icons8-dashboard-100.png", IconIdle, 14), TintIcon("icons8-dashboard-100.png", Color.White, 14));
             RegisterNav(navDaily, TintIcon("icons8-clock-100.png", IconIdle, 14), TintIcon("icons8-clock-100.png", Color.White, 14));
             RegisterNav(navTasks, TintIcon("icons8-list-100.png", IconIdle, 14), TintIcon("icons8-list-100.png", Color.White, 14));
@@ -72,6 +89,25 @@ namespace FocusFlow
                 button.FlatAppearance.MouseDownBackColor = on ? NavActiveDown : NavIdleDown;
                 button.Invalidate();
             }
+
+            if (pages.TryGetValue(selected, out UserControl? page))
+            {
+                ShowPage(page);
+            }
+        }
+
+        private void ShowPage(UserControl page)
+        {
+            if (contentHost.Controls.Count == 1 && contentHost.Controls[0] == page)
+            {
+                return;
+            }
+
+            contentHost.SuspendLayout();
+            contentHost.Controls.Clear();
+            page.Dock = DockStyle.Fill;
+            contentHost.Controls.Add(page);
+            contentHost.ResumeLayout();
         }
 
         private void PaintNavItem(Button button, PaintEventArgs e)
