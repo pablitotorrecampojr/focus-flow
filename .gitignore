@@ -27,3 +27,7 @@
 [Dd]esktop.ini
 Thumbs.db
 ehthumbs.db
+
+# Local database
+*.db
+*.db-*
