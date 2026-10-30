@@ -5,8 +5,8 @@ namespace FocusFlow
         public TaskBreakdownControl()
         {
             InitializeComponent();
-            UiShapes.KeepRounded(taskCard, 18);
-            UiShapes.KeepRounded(stepsCard, 18);
+            UiShapes.KeepRounded(taskCard, UiShapes.CornerRadius);
+            UiShapes.KeepRounded(stepsCard, UiShapes.CornerRadius);
         }
     }
 }

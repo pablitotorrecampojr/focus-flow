@@ -9,18 +9,18 @@ namespace FocusFlow
             UiShapes.KeepPill(weekButton);
             UiShapes.KeepPill(monthButton);
             UiShapes.KeepPill(exportButton);
-            UiShapes.KeepRounded(starsCard, 18);
-            UiShapes.KeepRounded(focusCard, 18);
-            UiShapes.KeepRounded(peakCard, 18);
-            UiShapes.KeepRounded(noteCard, 18);
-            UiShapes.KeepRounded(dayMon, 12);
-            UiShapes.KeepRounded(dayTue, 12);
-            UiShapes.KeepRounded(dayWed, 12);
-            UiShapes.KeepRounded(dayThu, 12);
-            UiShapes.KeepRounded(dayFri, 12);
-            UiShapes.KeepRounded(daySat, 12);
-            UiShapes.KeepRounded(daySun, 12);
-            UiShapes.KeepRounded(noteBox, 12);
+            UiShapes.KeepRounded(starsCard, UiShapes.CornerRadius);
+            UiShapes.KeepRounded(focusCard, UiShapes.CornerRadius);
+            UiShapes.KeepRounded(peakCard, UiShapes.CornerRadius);
+            UiShapes.KeepRounded(noteCard, UiShapes.CornerRadius);
+            UiShapes.KeepRounded(dayMon, UiShapes.CornerRadius);
+            UiShapes.KeepRounded(dayTue, UiShapes.CornerRadius);
+            UiShapes.KeepRounded(dayWed, UiShapes.CornerRadius);
+            UiShapes.KeepRounded(dayThu, UiShapes.CornerRadius);
+            UiShapes.KeepRounded(dayFri, UiShapes.CornerRadius);
+            UiShapes.KeepRounded(daySat, UiShapes.CornerRadius);
+            UiShapes.KeepRounded(daySun, UiShapes.CornerRadius);
+            UiShapes.KeepRounded(noteBox, UiShapes.CornerRadius);
         }
     }
 }

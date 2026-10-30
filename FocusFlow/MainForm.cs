@@ -37,7 +37,7 @@ namespace FocusFlow
         private void StyleNavigation()
         {
             brandIcon.Image = new Bitmap(Image.FromFile(IconPath("icons8-cloud-100.png")), new Size(26, 26));
-            pages[navHome] = new HomeDashboardControl();
+            pages[navHome] = new HomeDashboardControl(Profile);
             pages[navDaily] = new DailyRoutineControl(Profile);
             pages[navTasks] = new TaskBreakdownControl();
             pages[navFocus] = new FocusModeControl();
@@ -108,6 +108,14 @@ namespace FocusFlow
             page.Dock = DockStyle.Fill;
             contentHost.Controls.Add(page);
             contentHost.ResumeLayout();
+            if (page is HomeDashboardControl home)
+            {
+                home.RefreshActiveRoutine();
+            }
+            else if (page is DailyRoutineControl daily)
+            {
+                daily.Reload();
+            }
         }
 
         private void PaintNavItem(Button button, PaintEventArgs e)

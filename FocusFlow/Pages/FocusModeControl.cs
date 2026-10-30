@@ -11,8 +11,8 @@ namespace FocusFlow
             UiShapes.KeepPill(focusModeButton);
             UiShapes.KeepPill(shortBreakButton);
             UiShapes.KeepPill(longBreakButton);
-            UiShapes.KeepPill(timerRing);
-            UiShapes.KeepPill(timerFace);
+            UiShapes.KeepCircle(timerRing);
+            UiShapes.KeepCircle(timerFace);
             UiShapes.KeepPill(pauseButton);
             UiShapes.KeepPill(skipButton);
         }

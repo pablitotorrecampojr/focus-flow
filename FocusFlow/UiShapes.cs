@@ -4,15 +4,24 @@ namespace FocusFlow
 {
     internal static class UiShapes
     {
+        public const int CornerRadius = 8;
+
         public static void ApplyPill(Control control)
         {
-            ApplyRounded(control, control.Height / 2);
+            ApplyRounded(control, CornerRadius);
         }
 
         public static void KeepPill(Control control)
         {
             control.Resize += (_, _) => ApplyPill(control);
             ApplyPill(control);
+        }
+
+        public static void KeepCircle(Control control)
+        {
+            void Apply() => ApplyRounded(control, Math.Max(control.Width, control.Height) / 2);
+            control.Resize += (_, _) => Apply();
+            Apply();
         }
 
         public static void KeepRounded(Control control, int radius)

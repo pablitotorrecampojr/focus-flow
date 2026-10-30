@@ -6,11 +6,11 @@ namespace FocusFlow
         {
             InitializeComponent();
             UiShapes.KeepPill(saveButton);
-            UiShapes.KeepRounded(themeCard, 18);
-            UiShapes.KeepRounded(themeSage, 12);
-            UiShapes.KeepRounded(themeRose, 12);
-            UiShapes.KeepRounded(themeBlue, 12);
-            UiShapes.KeepRounded(typeCard, 18);
+            UiShapes.KeepRounded(themeCard, UiShapes.CornerRadius);
+            UiShapes.KeepRounded(themeSage, UiShapes.CornerRadius);
+            UiShapes.KeepRounded(themeRose, UiShapes.CornerRadius);
+            UiShapes.KeepRounded(themeBlue, UiShapes.CornerRadius);
+            UiShapes.KeepRounded(typeCard, UiShapes.CornerRadius);
         }
     }
 }

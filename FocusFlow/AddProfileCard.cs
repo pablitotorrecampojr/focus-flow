@@ -21,7 +21,7 @@ namespace FocusFlow
             e.Graphics.SmoothingMode = SmoothingMode.AntiAlias;
             e.Graphics.Clear(Parent?.BackColor ?? BackColor);
             var rect = new Rectangle(1, 1, Width - 3, Height - 3);
-            using var path = UiShapes.RoundedRectangle(rect, 18);
+            using var path = UiShapes.RoundedRectangle(rect, UiShapes.CornerRadius);
             using var fill = new SolidBrush(Color.FromArgb(248, 245, 240));
             using var pen = new Pen(Color.FromArgb(190, 184, 176), 1.6f) { DashStyle = DashStyle.Dash };
             e.Graphics.FillPath(fill, path);

@@ -12,13 +12,65 @@ namespace FocusFlow
         string Title,
         int Minutes,
         string Category,
-        int SortOrder);
+        int SortOrder,
+        int DaysMask);
 
     public static class RoutinePeriod
     {
         public const string Morning = "Morning";
         public const string Afternoon = "Afternoon";
         public const string Evening = "Evening";
+
+        public static string Current(DateTime? moment = null)
+        {
+            int hour = (moment ?? DateTime.Now).Hour;
+            if (hour < 12)
+            {
+                return Morning;
+            }
+
+            return hour < 17 ? Afternoon : Evening;
+        }
+    }
+
+    public static class RoutineDays
+    {
+        public const int Monday = 1;
+        public const int Tuesday = 2;
+        public const int Wednesday = 4;
+        public const int Thursday = 8;
+        public const int Friday = 16;
+        public const int Saturday = 32;
+        public const int Sunday = 64;
+        public const int All = Monday | Tuesday | Wednesday | Thursday | Friday | Saturday | Sunday;
+
+        public static int Bit(DayOfWeek day)
+        {
+            int index = day == DayOfWeek.Sunday ? 6 : (int)day - 1;
+            return 1 << index;
+        }
+
+        public static bool Includes(int mask, DateTime date) => (mask & Bit(date.DayOfWeek)) != 0;
+
+        public static string Describe(int mask)
+        {
+            if ((mask & All) == All)
+            {
+                return "Daily";
+            }
+
+            string[] labels = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
+            var selected = new List<string>();
+            for (int i = 0; i < labels.Length; i++)
+            {
+                if ((mask & (1 << i)) != 0)
+                {
+                    selected.Add(labels[i]);
+                }
+            }
+
+            return selected.Count == 0 ? "No days" : string.Join(" ", selected);
+        }
     }
 
     public static class AppDatabase
@@ -57,10 +109,23 @@ namespace FocusFlow
                     Title      TEXT NOT NULL,
                     Minutes    INTEGER NOT NULL,
                     Category   TEXT NOT NULL,
-                    SortOrder  INTEGER NOT NULL
+                    SortOrder  INTEGER NOT NULL,
+                    DaysMask   INTEGER NOT NULL DEFAULT 127
                 );
                 """;
             routines.ExecuteNonQuery();
+            EnsureDaysMask(connection);
+
+            using var completions = connection.CreateCommand();
+            completions.CommandText =
+                """
+                CREATE TABLE IF NOT EXISTS RoutineCompletions (
+                    RoutineId   INTEGER NOT NULL,
+                    CompletedOn TEXT NOT NULL,
+                    PRIMARY KEY (RoutineId, CompletedOn)
+                );
+                """;
+            completions.ExecuteNonQuery();
         }
 
         public static IReadOnlyList<ProfileRecord> GetProfiles()
@@ -109,7 +174,7 @@ namespace FocusFlow
             using var command = connection.CreateCommand();
             command.CommandText =
                 """
-                SELECT Id, ProfileId, Period, Title, Minutes, Category, SortOrder
+                SELECT Id, ProfileId, Period, Title, Minutes, Category, SortOrder, DaysMask
                 FROM Routines
                 WHERE ProfileId = $profileId
                 ORDER BY SortOrder, Id;
@@ -127,19 +192,20 @@ namespace FocusFlow
                     reader.GetString(3),
                     reader.GetInt32(4),
                     reader.GetString(5),
-                    reader.GetInt32(6)));
+                    reader.GetInt32(6),
+                    reader.GetInt32(7)));
             }
 
             return routines;
         }
 
-        public static void AddRoutine(long profileId, string period, string title, int minutes, string category)
+        public static void AddRoutine(long profileId, string period, string title, int minutes, string category, int daysMask)
         {
             using var connection = Open();
             using var command = connection.CreateCommand();
             command.CommandText =
                 """
-                INSERT INTO Routines (ProfileId, Period, Title, Minutes, Category, SortOrder)
+                INSERT INTO Routines (ProfileId, Period, Title, Minutes, Category, SortOrder, DaysMask)
                 VALUES (
                     $profileId,
                     $period,
@@ -150,36 +216,84 @@ namespace FocusFlow
                         SELECT MAX(SortOrder) + 1
                         FROM Routines
                         WHERE ProfileId = $profileId AND Period = $period
-                    ), 0));
+                    ), 0),
+                    $days);
                 """;
             command.Parameters.AddWithValue("$profileId", profileId);
             command.Parameters.AddWithValue("$period", period);
             command.Parameters.AddWithValue("$title", title);
             command.Parameters.AddWithValue("$minutes", minutes);
             command.Parameters.AddWithValue("$category", category);
+            command.Parameters.AddWithValue("$days", daysMask);
             command.ExecuteNonQuery();
         }
 
-        public static void UpdateRoutine(long id, string title, int minutes, string category)
+        public static void UpdateRoutine(long id, string title, int minutes, string category, int daysMask)
         {
             using var connection = Open();
             using var command = connection.CreateCommand();
             command.CommandText =
                 """
                 UPDATE Routines
-                SET Title = $title, Minutes = $minutes, Category = $category
+                SET Title = $title, Minutes = $minutes, Category = $category, DaysMask = $days
                 WHERE Id = $id;
                 """;
             command.Parameters.AddWithValue("$id", id);
             command.Parameters.AddWithValue("$title", title);
             command.Parameters.AddWithValue("$minutes", minutes);
             command.Parameters.AddWithValue("$category", category);
+            command.Parameters.AddWithValue("$days", daysMask);
+            command.ExecuteNonQuery();
+        }
+
+        public static IReadOnlySet<long> GetCompletedRoutineIds(long profileId, DateTime day)
+        {
+            using var connection = Open();
+            using var command = connection.CreateCommand();
+            command.CommandText =
+                """
+                SELECT RoutineCompletions.RoutineId
+                FROM RoutineCompletions
+                INNER JOIN Routines ON Routines.Id = RoutineCompletions.RoutineId
+                WHERE Routines.ProfileId = $profileId
+                  AND RoutineCompletions.CompletedOn = $day;
+                """;
+            command.Parameters.AddWithValue("$profileId", profileId);
+            command.Parameters.AddWithValue("$day", DayKey(day));
+
+            var ids = new HashSet<long>();
+            using var reader = command.ExecuteReader();
+            while (reader.Read())
+            {
+                ids.Add(reader.GetInt64(0));
+            }
+
+            return ids;
+        }
+
+        public static void SetRoutineDone(long routineId, DateTime day, bool done)
+        {
+            using var connection = Open();
+            using var command = connection.CreateCommand();
+            command.CommandText = done
+                ? """
+                  INSERT OR IGNORE INTO RoutineCompletions (RoutineId, CompletedOn)
+                  VALUES ($id, $day);
+                  """
+                : "DELETE FROM RoutineCompletions WHERE RoutineId = $id AND CompletedOn = $day;";
+            command.Parameters.AddWithValue("$id", routineId);
+            command.Parameters.AddWithValue("$day", DayKey(day));
             command.ExecuteNonQuery();
         }
 
         public static void DeleteRoutine(long id)
         {
             using var connection = Open();
+            using var completions = connection.CreateCommand();
+            completions.CommandText = "DELETE FROM RoutineCompletions WHERE RoutineId = $id;";
+            completions.Parameters.AddWithValue("$id", id);
+            completions.ExecuteNonQuery();
+
             using var command = connection.CreateCommand();
             command.CommandText = "DELETE FROM Routines WHERE Id = $id;";
             command.Parameters.AddWithValue("$id", id);
@@ -273,6 +387,27 @@ namespace FocusFlow
                 command.ExecuteNonQuery();
             }
         }
+
+        private static void EnsureDaysMask(SqliteConnection connection)
+        {
+            using var info = connection.CreateCommand();
+            info.CommandText = "PRAGMA table_info(Routines);";
+            using var reader = info.ExecuteReader();
+            while (reader.Read())
+            {
+                if (string.Equals(reader.GetString(1), "DaysMask", StringComparison.OrdinalIgnoreCase))
+                {
+                    return;
+                }
+            }
+
+            reader.Dispose();
+            using var alter = connection.CreateCommand();
+            alter.CommandText = "ALTER TABLE Routines ADD COLUMN DaysMask INTEGER NOT NULL DEFAULT 127;";
+            alter.ExecuteNonQuery();
+        }
+
+        private static string DayKey(DateTime day) => day.ToString("yyyy-MM-dd");
 
         private static SqliteConnection Open()
         {

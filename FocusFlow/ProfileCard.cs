@@ -53,7 +53,7 @@ namespace FocusFlow
             e.Graphics.SmoothingMode = SmoothingMode.AntiAlias;
             e.Graphics.Clear(Parent?.BackColor ?? BackColor);
             var rect = new Rectangle(1, 1, Width - 3, Height - 3);
-            using var path = UiShapes.RoundedRectangle(rect, 18);
+            using var path = UiShapes.RoundedRectangle(rect, UiShapes.CornerRadius);
             using var fill = new SolidBrush(Color.White);
             using var pen = new Pen(borderColor, 1.6f);
             e.Graphics.FillPath(fill, path);

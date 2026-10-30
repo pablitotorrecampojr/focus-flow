@@ -6,8 +6,10 @@ namespace FocusFlow
 
         private readonly ProfileRecord? profile;
         private readonly Font cardTitleFont = new("Nunito Sans Normal SemiBold", 8.75F);
+        private readonly Font cardTitleDoneFont = new("Nunito Sans Normal SemiBold", 8.75F, FontStyle.Strikeout);
         private readonly Font cardMetaFont = new("Nunito Sans Normal", 7.75F);
         private readonly Font cardRemoveFont = new("Nunito Sans Normal", 10F);
+        private readonly HashSet<long> completedToday = [];
         private Point? dragOrigin;
 
         public DailyRoutineControl() : this(null)
@@ -28,9 +30,9 @@ namespace FocusFlow
             UiShapes.KeepPill(morningCount);
             UiShapes.KeepPill(afternoonCount);
             UiShapes.KeepPill(eveningCount);
-            UiShapes.KeepRounded(morningColumn, 14);
-            UiShapes.KeepRounded(afternoonColumn, 14);
-            UiShapes.KeepRounded(eveningColumn, 14);
+            UiShapes.KeepRounded(morningColumn, UiShapes.CornerRadius);
+            UiShapes.KeepRounded(afternoonColumn, UiShapes.CornerRadius);
+            UiShapes.KeepRounded(eveningColumn, UiShapes.CornerRadius);
             morningAdd.Click += (_, _) => AddRoutine(RoutinePeriod.Morning);
             afternoonAdd.Click += (_, _) => AddRoutine(RoutinePeriod.Afternoon);
             eveningAdd.Click += (_, _) => AddRoutine(RoutinePeriod.Evening);
@@ -54,7 +56,7 @@ namespace FocusFlow
                 return;
             }
 
-            AppDatabase.AddRoutine(profile.Id, period, dialog.RoutineTitle, dialog.Minutes, dialog.RoutineCategory);
+            AppDatabase.AddRoutine(profile.Id, period, dialog.RoutineTitle, dialog.Minutes, dialog.RoutineCategory, dialog.DaysMask);
             Reload();
         }
 
@@ -65,18 +67,27 @@ namespace FocusFlow
                 return;
             }
 
-            using var dialog = new AddRoutineForm(routine.Period, routine.Title, routine.Minutes, routine.Category);
+            using var dialog = new AddRoutineForm(routine.Period, routine.Title, routine.Minutes, routine.Category, routine.DaysMask);
             if (dialog.ShowDialog(FindForm()) != DialogResult.OK)
             {
                 return;
             }
 
-            AppDatabase.UpdateRoutine(routine.Id, dialog.RoutineTitle, dialog.Minutes, dialog.RoutineCategory);
+            AppDatabase.UpdateRoutine(routine.Id, dialog.RoutineTitle, dialog.Minutes, dialog.RoutineCategory, dialog.DaysMask);
             Reload();
         }
 
-        private void Reload()
+        public void Reload()
         {
+            completedToday.Clear();
+            if (profile is not null)
+            {
+                foreach (long id in AppDatabase.GetCompletedRoutineIds(profile.Id, DateTime.Today))
+                {
+                    completedToday.Add(id);
+                }
+            }
+
             IReadOnlyList<RoutineRecord> routines = profile is null
                 ? []
                 : AppDatabase.GetRoutines(profile.Id);
@@ -100,7 +111,7 @@ namespace FocusFlow
                 card.SetBounds(inset, y, width, 52);
                 list.Controls.Add(card);
                 card.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-                UiShapes.KeepRounded(card, 10);
+                UiShapes.KeepRounded(card, UiShapes.CornerRadius);
                 y += 58;
             }
         }
@@ -125,21 +136,23 @@ namespace FocusFlow
                 Tag = routine.Id,
                 Cursor = Cursors.Hand,
             };
+            bool scheduledToday = RoutineDays.Includes(routine.DaysMask, DateTime.Today);
+            bool done = scheduledToday && completedToday.Contains(routine.Id);
             var title = new Label
             {
                 Text = routine.Title,
                 AutoSize = false,
                 AutoEllipsis = true,
                 UseMnemonic = false,
-                Font = cardTitleFont,
-                ForeColor = Color.FromArgb(32, 44, 62),
-                Location = new Point(10, 4),
-                Size = new Size(150, 18),
+                Font = done ? cardTitleDoneFont : cardTitleFont,
+                ForeColor = done ? Color.FromArgb(140, 136, 130) : Color.FromArgb(32, 44, 62),
+                Location = new Point(scheduledToday ? 32 : 10, 4),
+                Size = new Size(scheduledToday ? 128 : 150, 18),
                 Cursor = Cursors.Hand,
             };
             var meta = new Label
             {
-                Text = $"{routine.Minutes} mins   ·   {routine.Category}",
+                Text = $"{routine.Minutes} mins   ·   {routine.Category}   ·   {RoutineDays.Describe(routine.DaysMask)}",
                 AutoSize = false,
                 AutoEllipsis = true,
                 UseMnemonic = false,
@@ -174,6 +187,30 @@ namespace FocusFlow
                 AppDatabase.DeleteRoutine(routine.Id);
                 Reload();
             };
+
+            if (scheduledToday)
+            {
+                var doneBox = new CheckBox
+                {
+                    Checked = done,
+                    Location = new Point(8, 5),
+                    Size = new Size(18, 18),
+                    BackColor = Color.White,
+                    Cursor = Cursors.Hand,
+                    TabStop = false,
+                };
+                doneBox.CheckedChanged += (_, _) =>
+                {
+                    if (profile is null)
+                    {
+                        return;
+                    }
+
+                    AppDatabase.SetRoutineDone(routine.Id, DateTime.Today, doneBox.Checked);
+                    BeginInvoke(Reload);
+                };
+                card.Controls.Add(doneBox);
+            }
 
             card.Controls.Add(remove);
             card.Controls.Add(meta);
