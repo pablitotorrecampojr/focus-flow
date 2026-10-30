@@ -39,7 +39,11 @@ namespace FocusFlow
             brandIcon.Image = new Bitmap(Image.FromFile(IconPath("icons8-cloud-100.png")), new Size(26, 26));
             pages[navHome] = new HomeDashboardControl(Profile);
             pages[navDaily] = new DailyRoutineControl(Profile);
-            pages[navTasks] = new TaskBreakdownControl();
+            pages[navTasks] = new TaskBreakdownControl(Profile);
+            if (pages[navTasks] is TaskBreakdownControl taskPage)
+            {
+                taskPage.OpenSubTasks += (_, task) => ShowSubTasks(task);
+            }
             pages[navFocus] = new FocusModeControl();
             pages[navProgress] = new GentleProgressControl();
             pages[navSettings] = new SettingsControl();
@@ -96,6 +100,13 @@ namespace FocusFlow
             }
         }
 
+        private void ShowSubTasks(TaskRecord task)
+        {
+            var page = new SubTasksControl(Profile, task);
+            page.BackRequested += (_, _) => ShowPage(pages[navTasks]);
+            ShowPage(page);
+        }
+
         private void ShowPage(UserControl page)
         {
             if (contentHost.Controls.Count == 1 && contentHost.Controls[0] == page)
@@ -103,11 +114,16 @@ namespace FocusFlow
                 return;
             }
 
+            UserControl? previous = contentHost.Controls.Count == 1 ? contentHost.Controls[0] as UserControl : null;
             contentHost.SuspendLayout();
             contentHost.Controls.Clear();
             page.Dock = DockStyle.Fill;
             contentHost.Controls.Add(page);
             contentHost.ResumeLayout();
+            if (previous is SubTasksControl subTasks)
+            {
+                BeginInvoke(() => subTasks.Dispose());
+            }
             if (page is HomeDashboardControl home)
             {
                 home.RefreshActiveRoutine();
@@ -115,6 +131,10 @@ namespace FocusFlow
             else if (page is DailyRoutineControl daily)
             {
                 daily.Reload();
+            }
+            else if (page is TaskBreakdownControl tasks)
+            {
+                tasks.Reload();
             }
         }
 
