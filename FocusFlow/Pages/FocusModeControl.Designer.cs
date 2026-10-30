@@ -30,6 +30,7 @@ namespace FocusFlow
             timerValue = new Label();
             timerCaption = new Label();
             pauseButton = new Button();
+            stopButton = new Button();
             skipButton = new Button();
             modeBar.SuspendLayout();
             timerRing.SuspendLayout();
@@ -214,10 +215,29 @@ namespace FocusFlow
             pauseButton.Location = new Point(0, 0);
             pauseButton.Name = "pauseButton";
             pauseButton.Click += pauseButton_Click;
-            pauseButton.Size = new Size(150, 40);
+            pauseButton.Size = new Size(136, 40);
             pauseButton.TabIndex = 5;
             pauseButton.Text = "Start Timer";
             pauseButton.UseVisualStyleBackColor = false;
+            // 
+            // stopButton
+            // 
+            stopButton.BackColor = Color.White;
+            stopButton.Cursor = Cursors.Hand;
+            stopButton.FlatAppearance.BorderColor = Color.FromArgb(168, 196, 180);
+            stopButton.FlatAppearance.BorderSize = 1;
+            stopButton.FlatAppearance.MouseDownBackColor = Color.FromArgb(226, 232, 228);
+            stopButton.FlatAppearance.MouseOverBackColor = Color.FromArgb(236, 242, 238);
+            stopButton.FlatStyle = FlatStyle.Flat;
+            stopButton.Font = new Font("Nunito Sans Normal SemiBold", 9F);
+            stopButton.ForeColor = Color.FromArgb(74, 84, 92);
+            stopButton.Location = new Point(148, 0);
+            stopButton.Name = "stopButton";
+            stopButton.Click += stopButton_Click;
+            stopButton.Size = new Size(136, 40);
+            stopButton.TabIndex = 6;
+            stopButton.Text = "Stop";
+            stopButton.UseVisualStyleBackColor = false;
             // 
             // skipButton
             // 
@@ -230,11 +250,11 @@ namespace FocusFlow
             skipButton.FlatStyle = FlatStyle.Flat;
             skipButton.Font = new Font("Nunito Sans Normal SemiBold", 9F);
             skipButton.ForeColor = Color.FromArgb(74, 84, 92);
-            skipButton.Location = new Point(164, 0);
+            skipButton.Location = new Point(296, 0);
             skipButton.Name = "skipButton";
             skipButton.Click += skipButton_Click;
-            skipButton.Size = new Size(150, 40);
-            skipButton.TabIndex = 6;
+            skipButton.Size = new Size(136, 40);
+            skipButton.TabIndex = 7;
             skipButton.Text = "Skip Interval";
             skipButton.UseVisualStyleBackColor = false;
             // 
@@ -255,11 +275,12 @@ namespace FocusFlow
             actionPanel.Anchor = AnchorStyles.None;
             actionPanel.BackColor = Color.FromArgb(236, 242, 238);
             actionPanel.Controls.Add(skipButton);
+            actionPanel.Controls.Add(stopButton);
             actionPanel.Controls.Add(pauseButton);
-            actionPanel.Location = new Point(298, 360);
+            actionPanel.Location = new Point(239, 360);
             actionPanel.Margin = new Padding(0, 16, 0, 0);
             actionPanel.Name = "actionPanel";
-            actionPanel.Size = new Size(314, 40);
+            actionPanel.Size = new Size(432, 40);
             actionPanel.TabIndex = 6;
             // 
             // pageLayout
@@ -323,6 +344,7 @@ namespace FocusFlow
         private Label timerValue;
         private Label timerCaption;
         private Button pauseButton;
+        private Button stopButton;
         private Button skipButton;
     }
 }

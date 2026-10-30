@@ -40,6 +40,7 @@ namespace FocusFlow
                 timerRing,
                 [true]);
             UiShapes.KeepPill(pauseButton);
+            UiShapes.KeepPill(stopButton);
             UiShapes.KeepPill(skipButton);
             clock.Tick += (_, _) => Tick();
             ShowClock();
@@ -91,6 +92,16 @@ namespace FocusFlow
             }
 
             Start();
+        }
+
+        private void stopButton_Click(object? sender, EventArgs e)
+        {
+            remaining = modeSeconds;
+            elapsed = 0;
+            running = false;
+            clock.Stop();
+            pauseButton.Text = "Start Timer";
+            ShowClock();
         }
 
         private void skipButton_Click(object? sender, EventArgs e)
