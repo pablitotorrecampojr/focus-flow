@@ -5,9 +5,9 @@ namespace FocusFlow
         private const string DragFormat = "FocusFlowRoutine";
 
         private readonly ProfileRecord? profile;
-        private readonly Font cardTitleFont = new("Nunito Sans Normal SemiBold", 9.5F);
-        private readonly Font cardMetaFont = new("Nunito Sans Normal", 8.5F);
-        private readonly Font cardRemoveFont = new("Nunito Sans Normal", 11F);
+        private readonly Font cardTitleFont = new("Nunito Sans Normal SemiBold", 8.75F);
+        private readonly Font cardMetaFont = new("Nunito Sans Normal", 7.75F);
+        private readonly Font cardRemoveFont = new("Nunito Sans Normal", 10F);
         private Point? dragOrigin;
 
         public DailyRoutineControl() : this(null)
@@ -18,9 +18,9 @@ namespace FocusFlow
         {
             this.profile = profile;
             InitializeComponent();
-            morningIcon.Image = Icon("icons8-sunrise-100.png", 22);
-            afternoonIcon.Image = Icon("icons8-afternoon-100.png", 22);
-            eveningIcon.Image = Icon("icons8-sunset-100.png", 22);
+            morningIcon.Image = Icon("icons8-sunrise-100.png", 18);
+            afternoonIcon.Image = Icon("icons8-afternoon-100.png", 18);
+            eveningIcon.Image = Icon("icons8-sunset-100.png", 18);
             UiShapes.KeepPill(launchButton);
             UiShapes.KeepPill(morningAdd);
             UiShapes.KeepPill(afternoonAdd);
@@ -28,9 +28,9 @@ namespace FocusFlow
             UiShapes.KeepPill(morningCount);
             UiShapes.KeepPill(afternoonCount);
             UiShapes.KeepPill(eveningCount);
-            UiShapes.KeepRounded(morningColumn, 18);
-            UiShapes.KeepRounded(afternoonColumn, 18);
-            UiShapes.KeepRounded(eveningColumn, 18);
+            UiShapes.KeepRounded(morningColumn, 14);
+            UiShapes.KeepRounded(afternoonColumn, 14);
+            UiShapes.KeepRounded(eveningColumn, 14);
             morningAdd.Click += (_, _) => AddRoutine(RoutinePeriod.Morning);
             afternoonAdd.Click += (_, _) => AddRoutine(RoutinePeriod.Afternoon);
             eveningAdd.Click += (_, _) => AddRoutine(RoutinePeriod.Evening);
@@ -91,16 +91,17 @@ namespace FocusFlow
             ClearCards(list, empty);
             empty.Visible = items.Count == 0;
             count.Text = items.Count == 1 ? "1 Item" : $"{items.Count} Items";
-            int y = 8;
-            int width = Math.Max(40, list.ClientSize.Width - 28);
+            const int inset = 8;
+            int y = 6;
+            int width = Math.Max(40, list.ClientSize.Width - inset * 2);
             foreach (RoutineRecord item in items)
             {
                 Panel card = CreateCard(item);
-                card.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-                card.SetBounds(4, y, width, 72);
+                card.SetBounds(inset, y, width, 52);
                 list.Controls.Add(card);
-                UiShapes.KeepRounded(card, 12);
-                y += 80;
+                card.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+                UiShapes.KeepRounded(card, 10);
+                y += 58;
             }
         }
 
@@ -119,7 +120,7 @@ namespace FocusFlow
         {
             var card = new Panel
             {
-                Size = new Size(220, 72),
+                Size = new Size(200, 52),
                 BackColor = Color.White,
                 Tag = routine.Id,
                 Cursor = Cursors.Hand,
@@ -132,8 +133,8 @@ namespace FocusFlow
                 UseMnemonic = false,
                 Font = cardTitleFont,
                 ForeColor = Color.FromArgb(32, 44, 62),
-                Location = new Point(12, 10),
-                Size = new Size(168, 24),
+                Location = new Point(10, 4),
+                Size = new Size(150, 18),
                 Cursor = Cursors.Hand,
             };
             var meta = new Label
@@ -144,8 +145,8 @@ namespace FocusFlow
                 UseMnemonic = false,
                 Font = cardMetaFont,
                 ForeColor = Color.FromArgb(120, 116, 110),
-                Location = new Point(12, 36),
-                Size = new Size(196, 22),
+                Location = new Point(10, 26),
+                Size = new Size(178, 16),
                 Cursor = Cursors.Hand,
             };
             var remove = new Button
@@ -155,8 +156,8 @@ namespace FocusFlow
                 BackColor = Color.White,
                 ForeColor = Color.FromArgb(160, 152, 144),
                 Font = cardRemoveFont,
-                Location = new Point(184, 8),
-                Size = new Size(28, 28),
+                Location = new Point(172, 4),
+                Size = new Size(22, 22),
                 Cursor = Cursors.Hand,
                 TabStop = false,
             };

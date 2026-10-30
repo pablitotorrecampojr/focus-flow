@@ -70,11 +70,11 @@ namespace FocusFlow
             launchButton.FlatAppearance.MouseDownBackColor = Color.FromArgb(82, 122, 104);
             launchButton.FlatAppearance.MouseOverBackColor = Color.FromArgb(122, 164, 144);
             launchButton.FlatStyle = FlatStyle.Flat;
-            launchButton.Font = new Font("Nunito Sans Normal SemiBold", 8.5F);
+            launchButton.Font = new Font("Nunito Sans Normal SemiBold", 8F);
             launchButton.ForeColor = Color.White;
-            launchButton.Location = new Point(656, 8);
+            launchButton.Location = new Point(694, 6);
             launchButton.Name = "launchButton";
-            launchButton.Size = new Size(206, 34);
+            launchButton.Size = new Size(168, 26);
             launchButton.TabIndex = 0;
             launchButton.Text = "Launch Routine Sequence";
             launchButton.UseVisualStyleBackColor = false;
@@ -98,27 +98,27 @@ namespace FocusFlow
             morningAccent.Dock = DockStyle.Top;
             morningAccent.Location = new Point(0, 0);
             morningAccent.Name = "morningAccent";
-            morningAccent.Size = new Size(286, 6);
+            morningAccent.Size = new Size(286, 4);
             morningAccent.TabIndex = 0;
             // 
             // morningIcon
             // 
             morningIcon.BackColor = Color.White;
-            morningIcon.Location = new Point(16, 16);
+            morningIcon.Location = new Point(12, 8);
             morningIcon.Name = "morningIcon";
-            morningIcon.Size = new Size(22, 22);
+            morningIcon.Size = new Size(18, 18);
             morningIcon.SizeMode = PictureBoxSizeMode.Zoom;
             morningIcon.TabIndex = 1;
             morningIcon.TabStop = false;
             // 
             // morningTitle
             // 
-            morningTitle.Font = new Font("Nunito Sans Normal SemiBold", 12F);
+            morningTitle.Font = new Font("Nunito Sans Normal SemiBold", 10.5F);
             morningTitle.ForeColor = Color.FromArgb(32, 44, 62);
             morningTitle.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            morningTitle.Location = new Point(44, 14);
+            morningTitle.Location = new Point(36, 6);
             morningTitle.Name = "morningTitle";
-            morningTitle.Size = new Size(120, 28);
+            morningTitle.Size = new Size(120, 22);
             morningTitle.TabIndex = 2;
             morningTitle.Text = "Morning";
             morningTitle.TextAlign = ContentAlignment.MiddleLeft;
@@ -126,12 +126,12 @@ namespace FocusFlow
             // morningCount
             // 
             morningCount.BackColor = Color.FromArgb(255, 236, 220);
-            morningCount.Font = new Font("Nunito Sans Normal", 8F);
+            morningCount.Font = new Font("Nunito Sans Normal", 7.5F);
             morningCount.ForeColor = Color.FromArgb(150, 96, 56);
             morningCount.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            morningCount.Location = new Point(184, 16);
+            morningCount.Location = new Point(200, 7);
             morningCount.Name = "morningCount";
-            morningCount.Size = new Size(84, 26);
+            morningCount.Size = new Size(70, 20);
             morningCount.TabIndex = 3;
             morningCount.Text = "0 Items";
             morningCount.TextAlign = ContentAlignment.MiddleCenter;
@@ -144,12 +144,12 @@ namespace FocusFlow
             morningAdd.FlatAppearance.MouseDownBackColor = Color.FromArgb(82, 122, 104);
             morningAdd.FlatAppearance.MouseOverBackColor = Color.FromArgb(122, 164, 144);
             morningAdd.FlatStyle = FlatStyle.Flat;
-            morningAdd.Font = new Font("Nunito Sans Normal SemiBold", 8.5F);
+            morningAdd.Font = new Font("Nunito Sans Normal SemiBold", 8F);
             morningAdd.ForeColor = Color.White;
             morningAdd.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            morningAdd.Location = new Point(14, 50);
+            morningAdd.Location = new Point(12, 34);
             morningAdd.Name = "morningAdd";
-            morningAdd.Size = new Size(258, 32);
+            morningAdd.Size = new Size(262, 26);
             morningAdd.TabIndex = 4;
             morningAdd.Text = "+  Add Routine";
             morningAdd.UseVisualStyleBackColor = false;
@@ -160,7 +160,7 @@ namespace FocusFlow
             morningList.BackColor = Color.FromArgb(252, 250, 247);
             morningList.Controls.Add(morningEmpty);
             morningList.Dock = DockStyle.Fill;
-            morningList.Margin = new Padding(14, 4, 14, 14);
+            morningList.Margin = new Padding(10, 2, 10, 10);
             morningList.Location = new Point(14, 92);
             morningList.Name = "morningList";
             morningList.Size = new Size(258, 484);
@@ -168,12 +168,12 @@ namespace FocusFlow
             // 
             // morningEmpty
             // 
-            morningEmpty.Font = new Font("Nunito Sans Normal", 9F);
+            morningEmpty.Font = new Font("Nunito Sans Normal", 8F);
             morningEmpty.ForeColor = Color.FromArgb(160, 152, 144);
             morningEmpty.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            morningEmpty.Location = new Point(8, 16);
+            morningEmpty.Location = new Point(6, 8);
             morningEmpty.Name = "morningEmpty";
-            morningEmpty.Size = new Size(220, 28);
+            morningEmpty.Size = new Size(220, 20);
             morningEmpty.TabIndex = 0;
             morningEmpty.Text = "No routines yet.";
             morningEmpty.TextAlign = ContentAlignment.MiddleLeft;
@@ -197,27 +197,27 @@ namespace FocusFlow
             afternoonAccent.Dock = DockStyle.Top;
             afternoonAccent.Location = new Point(0, 0);
             afternoonAccent.Name = "afternoonAccent";
-            afternoonAccent.Size = new Size(286, 6);
+            afternoonAccent.Size = new Size(286, 4);
             afternoonAccent.TabIndex = 0;
             // 
             // afternoonIcon
             // 
             afternoonIcon.BackColor = Color.White;
-            afternoonIcon.Location = new Point(16, 16);
+            afternoonIcon.Location = new Point(12, 8);
             afternoonIcon.Name = "afternoonIcon";
-            afternoonIcon.Size = new Size(22, 22);
+            afternoonIcon.Size = new Size(18, 18);
             afternoonIcon.SizeMode = PictureBoxSizeMode.Zoom;
             afternoonIcon.TabIndex = 1;
             afternoonIcon.TabStop = false;
             // 
             // afternoonTitle
             // 
-            afternoonTitle.Font = new Font("Nunito Sans Normal SemiBold", 12F);
+            afternoonTitle.Font = new Font("Nunito Sans Normal SemiBold", 10.5F);
             afternoonTitle.ForeColor = Color.FromArgb(32, 44, 62);
             afternoonTitle.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            afternoonTitle.Location = new Point(44, 14);
+            afternoonTitle.Location = new Point(36, 6);
             afternoonTitle.Name = "afternoonTitle";
-            afternoonTitle.Size = new Size(130, 28);
+            afternoonTitle.Size = new Size(130, 22);
             afternoonTitle.TabIndex = 2;
             afternoonTitle.Text = "Afternoon";
             afternoonTitle.TextAlign = ContentAlignment.MiddleLeft;
@@ -225,12 +225,12 @@ namespace FocusFlow
             // afternoonCount
             // 
             afternoonCount.BackColor = Color.FromArgb(226, 238, 246);
-            afternoonCount.Font = new Font("Nunito Sans Normal", 8F);
+            afternoonCount.Font = new Font("Nunito Sans Normal", 7.5F);
             afternoonCount.ForeColor = Color.FromArgb(70, 110, 146);
             afternoonCount.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            afternoonCount.Location = new Point(184, 16);
+            afternoonCount.Location = new Point(200, 7);
             afternoonCount.Name = "afternoonCount";
-            afternoonCount.Size = new Size(84, 26);
+            afternoonCount.Size = new Size(70, 20);
             afternoonCount.TabIndex = 3;
             afternoonCount.Text = "0 Items";
             afternoonCount.TextAlign = ContentAlignment.MiddleCenter;
@@ -243,12 +243,12 @@ namespace FocusFlow
             afternoonAdd.FlatAppearance.MouseDownBackColor = Color.FromArgb(82, 122, 104);
             afternoonAdd.FlatAppearance.MouseOverBackColor = Color.FromArgb(122, 164, 144);
             afternoonAdd.FlatStyle = FlatStyle.Flat;
-            afternoonAdd.Font = new Font("Nunito Sans Normal SemiBold", 8.5F);
+            afternoonAdd.Font = new Font("Nunito Sans Normal SemiBold", 8F);
             afternoonAdd.ForeColor = Color.White;
             afternoonAdd.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            afternoonAdd.Location = new Point(14, 50);
+            afternoonAdd.Location = new Point(12, 34);
             afternoonAdd.Name = "afternoonAdd";
-            afternoonAdd.Size = new Size(258, 32);
+            afternoonAdd.Size = new Size(262, 26);
             afternoonAdd.TabIndex = 4;
             afternoonAdd.Text = "+  Add Routine";
             afternoonAdd.UseVisualStyleBackColor = false;
@@ -259,7 +259,7 @@ namespace FocusFlow
             afternoonList.BackColor = Color.FromArgb(252, 250, 247);
             afternoonList.Controls.Add(afternoonEmpty);
             afternoonList.Dock = DockStyle.Fill;
-            afternoonList.Margin = new Padding(14, 4, 14, 14);
+            afternoonList.Margin = new Padding(10, 2, 10, 10);
             afternoonList.Location = new Point(14, 92);
             afternoonList.Name = "afternoonList";
             afternoonList.Size = new Size(258, 484);
@@ -267,12 +267,12 @@ namespace FocusFlow
             // 
             // afternoonEmpty
             // 
-            afternoonEmpty.Font = new Font("Nunito Sans Normal", 9F);
+            afternoonEmpty.Font = new Font("Nunito Sans Normal", 8F);
             afternoonEmpty.ForeColor = Color.FromArgb(160, 152, 144);
             afternoonEmpty.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            afternoonEmpty.Location = new Point(8, 16);
+            afternoonEmpty.Location = new Point(6, 8);
             afternoonEmpty.Name = "afternoonEmpty";
-            afternoonEmpty.Size = new Size(220, 28);
+            afternoonEmpty.Size = new Size(220, 20);
             afternoonEmpty.TabIndex = 0;
             afternoonEmpty.Text = "No routines yet.";
             afternoonEmpty.TextAlign = ContentAlignment.MiddleLeft;
@@ -296,27 +296,27 @@ namespace FocusFlow
             eveningAccent.Dock = DockStyle.Top;
             eveningAccent.Location = new Point(0, 0);
             eveningAccent.Name = "eveningAccent";
-            eveningAccent.Size = new Size(286, 6);
+            eveningAccent.Size = new Size(286, 4);
             eveningAccent.TabIndex = 0;
             // 
             // eveningIcon
             // 
             eveningIcon.BackColor = Color.White;
-            eveningIcon.Location = new Point(16, 16);
+            eveningIcon.Location = new Point(12, 8);
             eveningIcon.Name = "eveningIcon";
-            eveningIcon.Size = new Size(22, 22);
+            eveningIcon.Size = new Size(18, 18);
             eveningIcon.SizeMode = PictureBoxSizeMode.Zoom;
             eveningIcon.TabIndex = 1;
             eveningIcon.TabStop = false;
             // 
             // eveningTitle
             // 
-            eveningTitle.Font = new Font("Nunito Sans Normal SemiBold", 12F);
+            eveningTitle.Font = new Font("Nunito Sans Normal SemiBold", 10.5F);
             eveningTitle.ForeColor = Color.FromArgb(32, 44, 62);
             eveningTitle.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            eveningTitle.Location = new Point(44, 14);
+            eveningTitle.Location = new Point(36, 6);
             eveningTitle.Name = "eveningTitle";
-            eveningTitle.Size = new Size(120, 28);
+            eveningTitle.Size = new Size(120, 22);
             eveningTitle.TabIndex = 2;
             eveningTitle.Text = "Evening";
             eveningTitle.TextAlign = ContentAlignment.MiddleLeft;
@@ -324,12 +324,12 @@ namespace FocusFlow
             // eveningCount
             // 
             eveningCount.BackColor = Color.FromArgb(238, 230, 244);
-            eveningCount.Font = new Font("Nunito Sans Normal", 8F);
+            eveningCount.Font = new Font("Nunito Sans Normal", 7.5F);
             eveningCount.ForeColor = Color.FromArgb(110, 86, 140);
             eveningCount.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            eveningCount.Location = new Point(184, 16);
+            eveningCount.Location = new Point(200, 7);
             eveningCount.Name = "eveningCount";
-            eveningCount.Size = new Size(84, 26);
+            eveningCount.Size = new Size(70, 20);
             eveningCount.TabIndex = 3;
             eveningCount.Text = "0 Items";
             eveningCount.TextAlign = ContentAlignment.MiddleCenter;
@@ -342,12 +342,12 @@ namespace FocusFlow
             eveningAdd.FlatAppearance.MouseDownBackColor = Color.FromArgb(82, 122, 104);
             eveningAdd.FlatAppearance.MouseOverBackColor = Color.FromArgb(122, 164, 144);
             eveningAdd.FlatStyle = FlatStyle.Flat;
-            eveningAdd.Font = new Font("Nunito Sans Normal SemiBold", 8.5F);
+            eveningAdd.Font = new Font("Nunito Sans Normal SemiBold", 8F);
             eveningAdd.ForeColor = Color.White;
             eveningAdd.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            eveningAdd.Location = new Point(14, 50);
+            eveningAdd.Location = new Point(12, 34);
             eveningAdd.Name = "eveningAdd";
-            eveningAdd.Size = new Size(258, 32);
+            eveningAdd.Size = new Size(262, 26);
             eveningAdd.TabIndex = 4;
             eveningAdd.Text = "+  Add Routine";
             eveningAdd.UseVisualStyleBackColor = false;
@@ -358,7 +358,7 @@ namespace FocusFlow
             eveningList.BackColor = Color.FromArgb(252, 250, 247);
             eveningList.Controls.Add(eveningEmpty);
             eveningList.Dock = DockStyle.Fill;
-            eveningList.Margin = new Padding(14, 4, 14, 14);
+            eveningList.Margin = new Padding(10, 2, 10, 10);
             eveningList.Location = new Point(14, 92);
             eveningList.Name = "eveningList";
             eveningList.Size = new Size(258, 484);
@@ -366,12 +366,12 @@ namespace FocusFlow
             // 
             // eveningEmpty
             // 
-            eveningEmpty.Font = new Font("Nunito Sans Normal", 9F);
+            eveningEmpty.Font = new Font("Nunito Sans Normal", 8F);
             eveningEmpty.ForeColor = Color.FromArgb(160, 152, 144);
             eveningEmpty.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            eveningEmpty.Location = new Point(8, 16);
+            eveningEmpty.Location = new Point(6, 8);
             eveningEmpty.Name = "eveningEmpty";
-            eveningEmpty.Size = new Size(220, 28);
+            eveningEmpty.Size = new Size(220, 20);
             eveningEmpty.TabIndex = 0;
             eveningEmpty.Text = "No routines yet.";
             eveningEmpty.TextAlign = ContentAlignment.MiddleLeft;
@@ -384,7 +384,7 @@ namespace FocusFlow
             headerPanel.Location = new Point(19, 19);
             headerPanel.Margin = new Padding(0);
             headerPanel.Name = "headerPanel";
-            headerPanel.Size = new Size(878, 50);
+            headerPanel.Size = new Size(878, 40);
             headerPanel.TabIndex = 0;
             // 
             // morningHead
@@ -397,7 +397,7 @@ namespace FocusFlow
             morningHead.Dock = DockStyle.Top;
             morningHead.Location = new Point(0, 6);
             morningHead.Name = "morningHead";
-            morningHead.Size = new Size(286, 88);
+            morningHead.Size = new Size(286, 68);
             morningHead.TabIndex = 1;
             // 
             // afternoonHead
@@ -410,7 +410,7 @@ namespace FocusFlow
             afternoonHead.Dock = DockStyle.Top;
             afternoonHead.Location = new Point(0, 6);
             afternoonHead.Name = "afternoonHead";
-            afternoonHead.Size = new Size(286, 88);
+            afternoonHead.Size = new Size(286, 68);
             afternoonHead.TabIndex = 1;
             // 
             // eveningHead
@@ -423,7 +423,7 @@ namespace FocusFlow
             eveningHead.Dock = DockStyle.Top;
             eveningHead.Location = new Point(0, 6);
             eveningHead.Name = "eveningHead";
-            eveningHead.Size = new Size(286, 88);
+            eveningHead.Size = new Size(286, 68);
             eveningHead.TabIndex = 1;
             // 
             // pageLayout
@@ -442,7 +442,7 @@ namespace FocusFlow
             pageLayout.Name = "pageLayout";
             pageLayout.Padding = new Padding(16);
             pageLayout.RowCount = 2;
-            pageLayout.RowStyles.Add(new RowStyle(SizeType.Absolute, 50F));
+            pageLayout.RowStyles.Add(new RowStyle(SizeType.Absolute, 40F));
             pageLayout.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
             pageLayout.Size = new Size(910, 680);
             pageLayout.TabIndex = 0;
