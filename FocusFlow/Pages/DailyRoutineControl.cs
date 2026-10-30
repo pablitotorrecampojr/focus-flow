@@ -8,8 +8,10 @@ namespace FocusFlow
         private readonly Font cardTitleFont = new("Nunito Sans Normal SemiBold", 8.75F);
         private readonly Font cardTitleDoneFont = new("Nunito Sans Normal SemiBold", 8.75F, FontStyle.Strikeout);
         private readonly Font cardMetaFont = new("Nunito Sans Normal", 7.75F);
-        private readonly Font cardRemoveFont = new("Nunito Sans Normal", 10F);
+        private readonly Image deleteIcon = Icon("icons8-trash-100.png", 14);
         private readonly HashSet<long> completedToday = [];
+
+        public event EventHandler<string>? LaunchFocus;
         private Point? dragOrigin;
 
         public DailyRoutineControl() : this(null)
@@ -40,6 +42,30 @@ namespace FocusFlow
             BindDrop(afternoonColumn, afternoonList, afternoonEmpty, RoutinePeriod.Afternoon);
             BindDrop(eveningColumn, eveningList, eveningEmpty, RoutinePeriod.Evening);
             Reload();
+        }
+
+        private void launchButton_Click(object? sender, EventArgs e)
+        {
+            if (profile is null)
+            {
+                MessageBox.Show(FindForm(), "Open a profile before launching a routine.", "Daily Routine", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+
+            string period = RoutinePeriod.Current();
+            IReadOnlySet<long> done = AppDatabase.GetCompletedRoutineIds(profile.Id, DateTime.Today);
+            RoutineRecord? next = AppDatabase.GetRoutines(profile.Id)
+                .Where(routine => routine.Period == period && RoutineDays.Includes(routine.DaysMask, DateTime.Today) && !done.Contains(routine.Id))
+                .OrderBy(routine => routine.SortOrder)
+                .ThenBy(routine => routine.Id)
+                .FirstOrDefault();
+            if (next is null)
+            {
+                MessageBox.Show(FindForm(), $"Nothing left to launch this {period.ToLowerInvariant()}.", "Daily Routine", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+
+            LaunchFocus?.Invoke(this, next.Title);
         }
 
         private void AddRoutine(string period)
@@ -164,11 +190,11 @@ namespace FocusFlow
             };
             var remove = new Button
             {
-                Text = "×",
+                Text = "",
+                Image = deleteIcon,
+                ImageAlign = ContentAlignment.MiddleCenter,
                 FlatStyle = FlatStyle.Flat,
                 BackColor = Color.White,
-                ForeColor = Color.FromArgb(160, 152, 144),
-                Font = cardRemoveFont,
                 Location = new Point(172, 4),
                 Size = new Size(22, 22),
                 Cursor = Cursors.Hand,

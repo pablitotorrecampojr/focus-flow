@@ -87,6 +87,7 @@ namespace FocusFlow
             dayButton.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             dayButton.Location = new Point(424, 8);
             dayButton.Name = "dayButton";
+            dayButton.Click += dayButton_Click;
             dayButton.Size = new Size(64, 32);
             dayButton.TabIndex = 0;
             dayButton.Text = "Day";
@@ -105,6 +106,7 @@ namespace FocusFlow
             weekButton.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             weekButton.Location = new Point(496, 8);
             weekButton.Name = "weekButton";
+            weekButton.Click += weekButton_Click;
             weekButton.Size = new Size(72, 32);
             weekButton.TabIndex = 1;
             weekButton.Text = "Week";
@@ -123,6 +125,7 @@ namespace FocusFlow
             monthButton.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             monthButton.Location = new Point(576, 8);
             monthButton.Name = "monthButton";
+            monthButton.Click += monthButton_Click;
             monthButton.Size = new Size(72, 32);
             monthButton.TabIndex = 2;
             monthButton.Text = "Month";
@@ -142,6 +145,7 @@ namespace FocusFlow
             exportButton.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             exportButton.Location = new Point(664, 8);
             exportButton.Name = "exportButton";
+            exportButton.Click += exportButton_Click;
             exportButton.Size = new Size(176, 32);
             exportButton.TabIndex = 3;
             exportButton.Text = "Export Journal (PDF)";
@@ -547,6 +551,7 @@ namespace FocusFlow
             noteBox.Location = new Point(18, 56);
             noteBox.Multiline = true;
             noteBox.Name = "noteBox";
+            noteBox.Leave += noteBox_Leave;
             noteBox.PlaceholderText = "Write how today's pacing felt...";
             noteBox.Size = new Size(512, 200);
             noteBox.TabIndex = 1;

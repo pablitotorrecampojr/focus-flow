@@ -177,6 +177,8 @@ namespace FocusFlow
             subtaskGrid.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             subtaskGrid.TabIndex = 0;
             subtaskGrid.CellClick += subtaskGrid_CellClick;
+            subtaskGrid.CellMouseLeave += subtaskGrid_CellMouseLeave;
+            subtaskGrid.CellMouseMove += subtaskGrid_CellMouseMove;
             subtaskGrid.CellPainting += subtaskGrid_CellPainting;
             subtaskGrid.CellValueChanged += subtaskGrid_CellValueChanged;
             subtaskGrid.CurrentCellDirtyStateChanged += subtaskGrid_CurrentCellDirtyStateChanged;

@@ -112,6 +112,8 @@ namespace FocusFlow
             taskGrid.Size = new Size(840, 555);
             taskGrid.TabIndex = 0;
             taskGrid.CellClick += taskGrid_CellClick;
+            taskGrid.CellMouseLeave += taskGrid_CellMouseLeave;
+            taskGrid.CellMouseMove += taskGrid_CellMouseMove;
             taskGrid.SelectionChanged += taskGrid_SelectionChanged;
             taskGrid.CellPainting += taskGrid_CellPainting;
             // 

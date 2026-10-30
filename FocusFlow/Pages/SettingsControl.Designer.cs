@@ -61,6 +61,7 @@ namespace FocusFlow
             saveButton.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             saveButton.Location = new Point(684, 8);
             saveButton.Name = "saveButton";
+            saveButton.Click += saveButton_Click;
             saveButton.Size = new Size(156, 34);
             saveButton.TabIndex = 0;
             saveButton.Text = "Save Preferences";
@@ -98,6 +99,7 @@ namespace FocusFlow
             themeSage.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             themeSage.Location = new Point(20, 64);
             themeSage.Name = "themeSage";
+            themeSage.Click += themeSage_Click;
             themeSage.Size = new Size(380, 56);
             themeSage.TabIndex = 1;
             // 
@@ -108,6 +110,7 @@ namespace FocusFlow
             sageLabel.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             sageLabel.Location = new Point(16, 0);
             sageLabel.Name = "sageLabel";
+            sageLabel.Click += themeSage_Click;
             sageLabel.Size = new Size(280, 56);
             sageLabel.TabIndex = 0;
             sageLabel.Text = "Soft Sage && Linen (Current)";
@@ -120,6 +123,7 @@ namespace FocusFlow
             sageMark.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             sageMark.Location = new Point(320, 0);
             sageMark.Name = "sageMark";
+            sageMark.Click += themeSage_Click;
             sageMark.Size = new Size(40, 56);
             sageMark.TabIndex = 1;
             sageMark.Text = "✓";
@@ -133,6 +137,7 @@ namespace FocusFlow
             themeRose.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             themeRose.Location = new Point(20, 136);
             themeRose.Name = "themeRose";
+            themeRose.Click += themeRose_Click;
             themeRose.Size = new Size(380, 56);
             themeRose.TabIndex = 2;
             // 
@@ -143,6 +148,7 @@ namespace FocusFlow
             roseLabel.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             roseLabel.Location = new Point(16, 0);
             roseLabel.Name = "roseLabel";
+            roseLabel.Click += themeRose_Click;
             roseLabel.Size = new Size(280, 56);
             roseLabel.TabIndex = 0;
             roseLabel.Text = "Gentle Blush Rose";
@@ -155,6 +161,7 @@ namespace FocusFlow
             roseMark.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             roseMark.Location = new Point(320, 0);
             roseMark.Name = "roseMark";
+            roseMark.Click += themeRose_Click;
             roseMark.Size = new Size(40, 56);
             roseMark.TabIndex = 1;
             roseMark.Text = "○";
@@ -168,6 +175,7 @@ namespace FocusFlow
             themeBlue.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             themeBlue.Location = new Point(20, 208);
             themeBlue.Name = "themeBlue";
+            themeBlue.Click += themeBlue_Click;
             themeBlue.Size = new Size(380, 56);
             themeBlue.TabIndex = 3;
             // 
@@ -178,6 +186,7 @@ namespace FocusFlow
             blueLabel.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             blueLabel.Location = new Point(16, 0);
             blueLabel.Name = "blueLabel";
+            blueLabel.Click += themeBlue_Click;
             blueLabel.Size = new Size(280, 56);
             blueLabel.TabIndex = 0;
             blueLabel.Text = "Soft Powder Blue";
@@ -190,6 +199,7 @@ namespace FocusFlow
             blueMark.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             blueMark.Location = new Point(320, 0);
             blueMark.Name = "blueMark";
+            blueMark.Click += themeBlue_Click;
             blueMark.Size = new Size(40, 56);
             blueMark.TabIndex = 1;
             blueMark.Text = "○";

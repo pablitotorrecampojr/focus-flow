@@ -95,6 +95,7 @@ namespace FocusFlow
             pomodoroBadge.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             pomodoroBadge.Location = new Point(620, 6);
             pomodoroBadge.Name = "pomodoroBadge";
+            pomodoroBadge.Click += pomodoroBadge_Click;
             pomodoroBadge.Padding = new Padding(12, 0, 10, 0);
             pomodoroBadge.Size = new Size(220, 34);
             pomodoroBadge.TabIndex = 3;

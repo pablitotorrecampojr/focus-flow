@@ -6,8 +6,9 @@ namespace FocusFlow
     {
         private readonly ProfileRecord? profile;
         private readonly Bitmap viewIcon = Icon(DrawEye);
-        private readonly Bitmap editIcon = Icon(DrawPencil);
-        private readonly Bitmap deleteIcon = Icon(DrawTrash);
+        private readonly Bitmap editIcon = LoadIcon("icons8-pencil-100.png");
+        private readonly Bitmap deleteIcon = LoadIcon("icons8-trash-100.png");
+        private Point hoverCell = new(-1, -1);
 
         public event EventHandler<TaskRecord>? OpenSubTasks;
 
@@ -121,6 +122,42 @@ namespace FocusFlow
             }
         }
 
+        private void taskGrid_CellMouseMove(object? sender, DataGridViewCellMouseEventArgs e)
+        {
+            SetHover(e.ColumnIndex, e.RowIndex);
+        }
+
+        private void taskGrid_CellMouseLeave(object? sender, DataGridViewCellEventArgs e)
+        {
+            if (hoverCell.X == e.ColumnIndex && hoverCell.Y == e.RowIndex)
+            {
+                SetHover(-1, -1);
+            }
+        }
+
+        private void SetHover(int column, int row)
+        {
+            bool action = row >= 0 && (column == viewColumn.Index || column == editColumn.Index || column == deleteColumn.Index);
+            var next = action ? new Point(column, row) : new Point(-1, -1);
+            taskGrid.Cursor = next.X >= 0 ? Cursors.Hand : Cursors.Default;
+            if (next == hoverCell)
+            {
+                return;
+            }
+
+            Point previous = hoverCell;
+            hoverCell = next;
+            if (previous.Y >= 0)
+            {
+                taskGrid.InvalidateCell(previous.X, previous.Y);
+            }
+
+            if (hoverCell.Y >= 0)
+            {
+                taskGrid.InvalidateCell(hoverCell.X, hoverCell.Y);
+            }
+        }
+
         private void taskGrid_CellPainting(object? sender, DataGridViewCellPaintingEventArgs e)
         {
             Image? icon = e.ColumnIndex == viewColumn.Index ? viewIcon
@@ -133,6 +170,23 @@ namespace FocusFlow
             }
 
             e.Paint(e.ClipBounds, DataGridViewPaintParts.All & ~DataGridViewPaintParts.ContentForeground);
+            bool hovered = hoverCell.X == e.ColumnIndex && hoverCell.Y == e.RowIndex;
+            if (hovered)
+            {
+                var chip = new Rectangle(
+                    e.CellBounds.X + (e.CellBounds.Width - 26) / 2,
+                    e.CellBounds.Y + (e.CellBounds.Height - 26) / 2,
+                    26,
+                    26);
+                Color wash = e.ColumnIndex == deleteColumn.Index
+                    ? Color.FromArgb(252, 232, 228)
+                    : Color.FromArgb(226, 236, 230);
+                using var brush = new SolidBrush(wash);
+                using GraphicsPath path = UiShapes.RoundedRectangle(chip, UiShapes.CornerRadius);
+                e.Graphics.SmoothingMode = SmoothingMode.AntiAlias;
+                e.Graphics.FillPath(brush, path);
+            }
+
             int x = e.CellBounds.X + (e.CellBounds.Width - icon.Width) / 2;
             int y = e.CellBounds.Y + (e.CellBounds.Height - icon.Height) / 2;
             e.Graphics.DrawImage(icon, x, y);
@@ -157,22 +211,11 @@ namespace FocusFlow
             graphics.FillEllipse(brush, 6, 6, 4, 4);
         }
 
-        private static void DrawPencil(Graphics graphics)
+        private static Bitmap LoadIcon(string fileName)
         {
-            using var pen = new Pen(Color.FromArgb(90, 98, 106), 1.4f);
-            graphics.DrawLine(pen, 3, 13, 12, 4);
-            graphics.DrawLine(pen, 10, 3, 13, 6);
-            graphics.DrawLine(pen, 2, 14, 5, 13);
-        }
-
-        private static void DrawTrash(Graphics graphics)
-        {
-            using var pen = new Pen(Color.FromArgb(176, 106, 96), 1.4f);
-            graphics.DrawLine(pen, 3, 4, 13, 4);
-            graphics.DrawLine(pen, 6, 2, 10, 2);
-            graphics.DrawRectangle(pen, 4, 5, 8, 9);
-            graphics.DrawLine(pen, 7, 7, 7, 12);
-            graphics.DrawLine(pen, 9, 7, 9, 12);
+            var path = Path.Combine(AppContext.BaseDirectory, "icons", fileName);
+            using var source = Image.FromFile(path);
+            return new Bitmap(source, new Size(16, 16));
         }
     }
 }

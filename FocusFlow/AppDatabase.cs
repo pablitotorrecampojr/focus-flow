@@ -9,6 +9,8 @@ namespace FocusFlow
 
     public sealed record SubTaskRecord(long Id, long TaskId, string Title, string Status);
 
+    public sealed record AppSettings(string Theme, string FontName, int SpeechSpeed, int Volume);
+
     public static class SubTaskStatus
     {
         public const string Pending = "Pending";
@@ -167,6 +169,45 @@ namespace FocusFlow
                 """;
             subTasks.ExecuteNonQuery();
             EnsureSubTaskStatus(connection);
+
+            using var settings = connection.CreateCommand();
+            settings.CommandText =
+                """
+                CREATE TABLE IF NOT EXISTS Settings (
+                    ProfileId   INTEGER PRIMARY KEY,
+                    Theme       TEXT NOT NULL,
+                    FontName    TEXT NOT NULL,
+                    SpeechSpeed INTEGER NOT NULL,
+                    Volume      INTEGER NOT NULL
+                );
+                """;
+            settings.ExecuteNonQuery();
+
+            using var sessions = connection.CreateCommand();
+            sessions.CommandText =
+                """
+                CREATE TABLE IF NOT EXISTS FocusSessions (
+                    Id         INTEGER PRIMARY KEY AUTOINCREMENT,
+                    ProfileId  INTEGER NOT NULL,
+                    Mode       TEXT NOT NULL,
+                    TaskTitle  TEXT NOT NULL,
+                    Minutes    INTEGER NOT NULL,
+                    FinishedAt TEXT NOT NULL
+                );
+                """;
+            sessions.ExecuteNonQuery();
+
+            using var notes = connection.CreateCommand();
+            notes.CommandText =
+                """
+                CREATE TABLE IF NOT EXISTS JournalNotes (
+                    ProfileId INTEGER NOT NULL,
+                    NoteDate  TEXT NOT NULL,
+                    Body      TEXT NOT NULL,
+                    PRIMARY KEY (ProfileId, NoteDate)
+                );
+                """;
+            notes.ExecuteNonQuery();
         }
 
         public static IReadOnlyList<ProfileRecord> GetProfiles()
@@ -483,6 +524,169 @@ namespace FocusFlow
             command.CommandText = "UPDATE SubTasks SET Status = $status WHERE Id = $id;";
             command.Parameters.AddWithValue("$id", id);
             command.Parameters.AddWithValue("$status", status);
+            command.ExecuteNonQuery();
+        }
+
+        public static AppSettings GetSettings(long profileId)
+        {
+            using var connection = Open();
+            using var command = connection.CreateCommand();
+            command.CommandText =
+                """
+                SELECT Theme, FontName, SpeechSpeed, Volume
+                FROM Settings
+                WHERE ProfileId = $id;
+                """;
+            command.Parameters.AddWithValue("$id", profileId);
+            using var reader = command.ExecuteReader();
+            if (!reader.Read())
+            {
+                return new AppSettings("sage", "Clean Sans (Nunito Rounded)", 60, 40);
+            }
+
+            return new AppSettings(reader.GetString(0), reader.GetString(1), reader.GetInt32(2), reader.GetInt32(3));
+        }
+
+        public static void SaveSettings(long profileId, AppSettings settings)
+        {
+            using var connection = Open();
+            using var command = connection.CreateCommand();
+            command.CommandText =
+                """
+                INSERT INTO Settings (ProfileId, Theme, FontName, SpeechSpeed, Volume)
+                VALUES ($id, $theme, $font, $speech, $volume)
+                ON CONFLICT(ProfileId) DO UPDATE SET
+                    Theme = excluded.Theme,
+                    FontName = excluded.FontName,
+                    SpeechSpeed = excluded.SpeechSpeed,
+                    Volume = excluded.Volume;
+                """;
+            command.Parameters.AddWithValue("$id", profileId);
+            command.Parameters.AddWithValue("$theme", settings.Theme);
+            command.Parameters.AddWithValue("$font", settings.FontName);
+            command.Parameters.AddWithValue("$speech", settings.SpeechSpeed);
+            command.Parameters.AddWithValue("$volume", settings.Volume);
+            command.ExecuteNonQuery();
+        }
+
+        public static void AddFocusSession(long profileId, string mode, string taskTitle, int minutes)
+        {
+            if (minutes <= 0)
+            {
+                return;
+            }
+
+            using var connection = Open();
+            using var command = connection.CreateCommand();
+            command.CommandText =
+                """
+                INSERT INTO FocusSessions (ProfileId, Mode, TaskTitle, Minutes, FinishedAt)
+                VALUES ($profileId, $mode, $title, $minutes, $finished);
+                """;
+            command.Parameters.AddWithValue("$profileId", profileId);
+            command.Parameters.AddWithValue("$mode", mode);
+            command.Parameters.AddWithValue("$title", taskTitle);
+            command.Parameters.AddWithValue("$minutes", minutes);
+            command.Parameters.AddWithValue("$finished", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
+            command.ExecuteNonQuery();
+        }
+
+        public static int GetFocusMinutes(long profileId, DateTime from, DateTime to)
+        {
+            using var connection = Open();
+            using var command = connection.CreateCommand();
+            command.CommandText =
+                """
+                SELECT COALESCE(SUM(Minutes), 0)
+                FROM FocusSessions
+                WHERE ProfileId = $id AND FinishedAt >= $from AND FinishedAt < $to;
+                """;
+            command.Parameters.AddWithValue("$id", profileId);
+            command.Parameters.AddWithValue("$from", from.ToString("yyyy-MM-dd"));
+            command.Parameters.AddWithValue("$to", to.ToString("yyyy-MM-dd"));
+            return Convert.ToInt32(command.ExecuteScalar());
+        }
+
+        public static string? GetPeakHour(long profileId, DateTime from, DateTime to)
+        {
+            using var connection = Open();
+            using var command = connection.CreateCommand();
+            command.CommandText =
+                """
+                SELECT substr(FinishedAt, 12, 2) AS Hour, COUNT(*) AS Total
+                FROM FocusSessions
+                WHERE ProfileId = $id AND FinishedAt >= $from AND FinishedAt < $to
+                GROUP BY Hour
+                ORDER BY Total DESC
+                LIMIT 1;
+                """;
+            command.Parameters.AddWithValue("$id", profileId);
+            command.Parameters.AddWithValue("$from", from.ToString("yyyy-MM-dd"));
+            command.Parameters.AddWithValue("$to", to.ToString("yyyy-MM-dd"));
+            using var reader = command.ExecuteReader();
+            if (!reader.Read() || reader.IsDBNull(0))
+            {
+                return null;
+            }
+
+            int hour = int.Parse(reader.GetString(0));
+            return DateTime.Today.AddHours(hour).ToString("h tt");
+        }
+
+        public static IReadOnlySet<string> GetActiveDates(long profileId, DateTime from, DateTime to)
+        {
+            using var connection = Open();
+            using var command = connection.CreateCommand();
+            command.CommandText =
+                """
+                SELECT RoutineCompletions.CompletedOn
+                FROM RoutineCompletions
+                INNER JOIN Routines ON Routines.Id = RoutineCompletions.RoutineId
+                WHERE Routines.ProfileId = $id
+                  AND RoutineCompletions.CompletedOn >= $from
+                  AND RoutineCompletions.CompletedOn < $to
+                UNION
+                SELECT substr(FinishedAt, 1, 10)
+                FROM FocusSessions
+                WHERE ProfileId = $id AND FinishedAt >= $from AND FinishedAt < $to;
+                """;
+            command.Parameters.AddWithValue("$id", profileId);
+            command.Parameters.AddWithValue("$from", from.ToString("yyyy-MM-dd"));
+            command.Parameters.AddWithValue("$to", to.ToString("yyyy-MM-dd"));
+
+            var dates = new HashSet<string>();
+            using var reader = command.ExecuteReader();
+            while (reader.Read())
+            {
+                dates.Add(reader.GetString(0));
+            }
+
+            return dates;
+        }
+
+        public static string GetJournalNote(long profileId, DateTime day)
+        {
+            using var connection = Open();
+            using var command = connection.CreateCommand();
+            command.CommandText = "SELECT Body FROM JournalNotes WHERE ProfileId = $id AND NoteDate = $day;";
+            command.Parameters.AddWithValue("$id", profileId);
+            command.Parameters.AddWithValue("$day", day.ToString("yyyy-MM-dd"));
+            return command.ExecuteScalar() as string ?? "";
+        }
+
+        public static void SaveJournalNote(long profileId, DateTime day, string body)
+        {
+            using var connection = Open();
+            using var command = connection.CreateCommand();
+            command.CommandText =
+                """
+                INSERT INTO JournalNotes (ProfileId, NoteDate, Body)
+                VALUES ($id, $day, $body)
+                ON CONFLICT(ProfileId, NoteDate) DO UPDATE SET Body = excluded.Body;
+                """;
+            command.Parameters.AddWithValue("$id", profileId);
+            command.Parameters.AddWithValue("$day", day.ToString("yyyy-MM-dd"));
+            command.Parameters.AddWithValue("$body", body);
             command.ExecuteNonQuery();
         }
 

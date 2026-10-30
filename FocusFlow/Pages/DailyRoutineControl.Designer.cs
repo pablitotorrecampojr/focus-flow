@@ -74,6 +74,7 @@ namespace FocusFlow
             launchButton.ForeColor = Color.White;
             launchButton.Location = new Point(694, 6);
             launchButton.Name = "launchButton";
+            launchButton.Click += launchButton_Click;
             launchButton.Size = new Size(168, 26);
             launchButton.TabIndex = 0;
             launchButton.Text = "Launch Routine Sequence";

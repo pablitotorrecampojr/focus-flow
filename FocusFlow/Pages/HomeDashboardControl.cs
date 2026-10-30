@@ -7,6 +7,8 @@ namespace FocusFlow
         private readonly ProfileRecord? profile;
         private long? activeRoutineId;
 
+        public event EventHandler? OpenFocus;
+
         public HomeDashboardControl() : this(null)
         {
         }
@@ -30,7 +32,11 @@ namespace FocusFlow
             UiShapes.KeepRounded(taskRow2, UiShapes.CornerRadius);
             UiShapes.KeepRounded(taskRow3, UiShapes.CornerRadius);
             UiShapes.KeepPill(rhythmTrack);
+            rhythmTrack.Resize += (_, _) => ApplyRhythm();
         }
+
+        private int rhythmDone;
+        private int rhythmTotal;
 
         public void RefreshActiveRoutine()
         {
@@ -43,6 +49,8 @@ namespace FocusFlow
             {
                 routineTitle.Text = "No active routine";
                 routineMeta.Text = "Saved routines will show up here.";
+                RefreshTasks();
+                RefreshRhythm();
                 return;
             }
 
@@ -61,6 +69,8 @@ namespace FocusFlow
                 routineMeta.Text = $"{active.Minutes} mins  ·  {active.Category}  ·  {RoutineDays.Describe(active.DaysMask)}";
                 startBadge.Text = "Mark done";
                 startBadge.Visible = true;
+                RefreshTasks();
+                RefreshRhythm();
                 return;
             }
 
@@ -68,6 +78,8 @@ namespace FocusFlow
             {
                 routineTitle.Text = "All caught up";
                 routineMeta.Text = $"Every {period.ToLowerInvariant()} routine for today is done.";
+                RefreshTasks();
+                RefreshRhythm();
                 return;
             }
 
@@ -76,6 +88,95 @@ namespace FocusFlow
             routineMeta.Text = scheduledLater
                 ? $"Nothing scheduled this {period.ToLowerInvariant()}."
                 : "Saved routines will show up here.";
+            RefreshTasks();
+            RefreshRhythm();
+        }
+
+        private void pomodoroBadge_Click(object? sender, EventArgs e)
+        {
+            OpenFocus?.Invoke(this, EventArgs.Empty);
+        }
+
+        private void RefreshTasks()
+        {
+            taskRow1.Visible = false;
+            taskRow2.Visible = false;
+            taskRow3.Visible = false;
+            tasksEmpty.Visible = true;
+            if (profile is null)
+            {
+                return;
+            }
+
+            List<TaskRecord> tasks = AppDatabase.GetTasks(profile.Id).Take(3).ToList();
+            tasksEmpty.Visible = tasks.Count == 0;
+            (Panel Row, Label Title, Label Chip)[] slots =
+            [
+                (taskRow1, task1Label, doneChip),
+                (taskRow2, task2Label, progressChip),
+                (taskRow3, task3Label, upcomingChip),
+            ];
+            for (int i = 0; i < tasks.Count; i++)
+            {
+                string status = TaskStatus(tasks[i]);
+                slots[i].Row.Visible = true;
+                slots[i].Title.Text = $"{i + 1}. {tasks[i].Title}";
+                slots[i].Chip.Text = status;
+            }
+        }
+
+        private static string TaskStatus(TaskRecord task)
+        {
+            List<SubTaskRecord> steps = AppDatabase.GetSubTasks(task.Id).ToList();
+            if (steps.Count == 0)
+            {
+                return "Upcoming";
+            }
+
+            if (steps.All(step => step.Status == SubTaskStatus.Done))
+            {
+                return "Done";
+            }
+
+            if (steps.Any(step => step.Status == SubTaskStatus.Overdue))
+            {
+                return "Overdue";
+            }
+
+            if (steps.Any(step => step.Status == SubTaskStatus.InProgress))
+            {
+                return "In Progress";
+            }
+
+            return "Upcoming";
+        }
+
+        private void RefreshRhythm()
+        {
+            rhythmDone = 0;
+            rhythmTotal = 0;
+            if (profile is not null)
+            {
+                IReadOnlySet<long> done = AppDatabase.GetCompletedRoutineIds(profile.Id, DateTime.Today);
+                List<RoutineRecord> today = AppDatabase.GetRoutines(profile.Id)
+                    .Where(routine => RoutineDays.Includes(routine.DaysMask, DateTime.Today))
+                    .ToList();
+                rhythmTotal = today.Count;
+                rhythmDone = today.Count(routine => done.Contains(routine.Id));
+            }
+
+            rhythmCaption.Text = rhythmTotal == 0
+                ? "No gentle goals yet"
+                : $"{rhythmDone} of {rhythmTotal} routines done today";
+            ApplyRhythm();
+        }
+
+        private void ApplyRhythm()
+        {
+            int width = rhythmTrack.ClientSize.Width;
+            int fill = rhythmTotal == 0 ? 0 : width * rhythmDone / rhythmTotal;
+            rhythmFill.SetBounds(0, 0, fill, Math.Max(1, rhythmTrack.ClientSize.Height));
+            rhythmFill.Visible = fill > 0;
         }
 
         private void startBadge_Click(object? sender, EventArgs e)

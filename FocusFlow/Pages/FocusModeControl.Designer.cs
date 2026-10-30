@@ -31,7 +31,6 @@ namespace FocusFlow
             timerCaption = new Label();
             pauseButton = new Button();
             skipButton = new Button();
-            helpLabel = new Label();
             modeBar.SuspendLayout();
             timerRing.SuspendLayout();
             timerFace.SuspendLayout();
@@ -53,6 +52,7 @@ namespace FocusFlow
             soundButton.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             soundButton.Location = new Point(560, 14);
             soundButton.Name = "soundButton";
+            soundButton.Click += soundButton_Click;
             soundButton.Size = new Size(160, 34);
             soundButton.TabIndex = 0;
             soundButton.Text = "Sound: None";
@@ -71,6 +71,7 @@ namespace FocusFlow
             exitButton.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             exitButton.Location = new Point(732, 14);
             exitButton.Name = "exitButton";
+            exitButton.Click += exitButton_Click;
             exitButton.Size = new Size(140, 34);
             exitButton.TabIndex = 1;
             exitButton.Text = "Exit Focus";
@@ -101,6 +102,7 @@ namespace FocusFlow
             focusModeButton.ForeColor = Color.White;
             focusModeButton.Location = new Point(4, 4);
             focusModeButton.Name = "focusModeButton";
+            focusModeButton.Click += focusModeButton_Click;
             focusModeButton.Size = new Size(130, 34);
             focusModeButton.TabIndex = 0;
             focusModeButton.Text = "Focus (25m)";
@@ -118,6 +120,7 @@ namespace FocusFlow
             shortBreakButton.ForeColor = Color.FromArgb(74, 84, 92);
             shortBreakButton.Location = new Point(138, 4);
             shortBreakButton.Name = "shortBreakButton";
+            shortBreakButton.Click += shortBreakButton_Click;
             shortBreakButton.Size = new Size(130, 34);
             shortBreakButton.TabIndex = 1;
             shortBreakButton.Text = "Short Break (5m)";
@@ -135,6 +138,7 @@ namespace FocusFlow
             longBreakButton.ForeColor = Color.FromArgb(74, 84, 92);
             longBreakButton.Location = new Point(272, 4);
             longBreakButton.Name = "longBreakButton";
+            longBreakButton.Click += longBreakButton_Click;
             longBreakButton.Size = new Size(134, 34);
             longBreakButton.TabIndex = 2;
             longBreakButton.Text = "Long Break (15m)";
@@ -155,12 +159,13 @@ namespace FocusFlow
             // 
             // timerRing
             // 
-            timerRing.BackColor = Color.FromArgb(168, 196, 180);
+            timerRing.BackColor = Color.FromArgb(236, 242, 238);
             timerRing.Controls.Add(timerFace);
             timerRing.Anchor = AnchorStyles.None;
             timerRing.Margin = new Padding(0, 12, 0, 0);
             timerRing.Location = new Point(365, 166);
             timerRing.Name = "timerRing";
+            timerRing.Paint += timerRing_Paint;
             timerRing.Size = new Size(180, 180);
             timerRing.TabIndex = 4;
             // 
@@ -208,9 +213,10 @@ namespace FocusFlow
             pauseButton.ForeColor = Color.White;
             pauseButton.Location = new Point(0, 0);
             pauseButton.Name = "pauseButton";
+            pauseButton.Click += pauseButton_Click;
             pauseButton.Size = new Size(150, 40);
             pauseButton.TabIndex = 5;
-            pauseButton.Text = "Pause Timer";
+            pauseButton.Text = "Start Timer";
             pauseButton.UseVisualStyleBackColor = false;
             // 
             // skipButton
@@ -226,23 +232,11 @@ namespace FocusFlow
             skipButton.ForeColor = Color.FromArgb(74, 84, 92);
             skipButton.Location = new Point(164, 0);
             skipButton.Name = "skipButton";
+            skipButton.Click += skipButton_Click;
             skipButton.Size = new Size(150, 40);
             skipButton.TabIndex = 6;
             skipButton.Text = "Skip Interval";
             skipButton.UseVisualStyleBackColor = false;
-            // 
-            // helpLabel
-            // 
-            helpLabel.Font = new Font("Nunito Sans Normal", 9F);
-            helpLabel.ForeColor = Color.FromArgb(90, 120, 108);
-            helpLabel.Dock = DockStyle.Fill;
-            helpLabel.Margin = new Padding(24, 12, 24, 0);
-            helpLabel.Location = new Point(27, 400);
-            helpLabel.Name = "helpLabel";
-            helpLabel.Size = new Size(550, 24);
-            helpLabel.TabIndex = 7;
-            helpLabel.Text = "I'm Feeling Stuck / Need Help";
-            helpLabel.TextAlign = ContentAlignment.MiddleCenter;
             // 
             // headerPanel
             // 
@@ -280,24 +274,21 @@ namespace FocusFlow
             pageLayout.Controls.Add(sessionLabel, 0, 3);
             pageLayout.Controls.Add(timerRing, 1, 4);
             pageLayout.Controls.Add(actionPanel, 1, 5);
-            pageLayout.Controls.Add(helpLabel, 0, 6);
             pageLayout.Dock = DockStyle.Fill;
             pageLayout.Location = new Point(0, 0);
             pageLayout.Name = "pageLayout";
-            pageLayout.RowCount = 8;
+            pageLayout.RowCount = 7;
             pageLayout.RowStyles.Add(new RowStyle(SizeType.Absolute, 64F));
             pageLayout.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
             pageLayout.RowStyles.Add(new RowStyle(SizeType.AutoSize));
             pageLayout.RowStyles.Add(new RowStyle(SizeType.Absolute, 36F));
             pageLayout.RowStyles.Add(new RowStyle(SizeType.AutoSize));
             pageLayout.RowStyles.Add(new RowStyle(SizeType.AutoSize));
-            pageLayout.RowStyles.Add(new RowStyle(SizeType.Absolute, 40F));
             pageLayout.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
             pageLayout.Size = new Size(910, 680);
             pageLayout.TabIndex = 0;
             pageLayout.SetColumnSpan(headerPanel, 3);
             pageLayout.SetColumnSpan(sessionLabel, 3);
-            pageLayout.SetColumnSpan(helpLabel, 3);
             // 
             // FocusModeControl
             // 
@@ -333,6 +324,5 @@ namespace FocusFlow
         private Label timerCaption;
         private Button pauseButton;
         private Button skipButton;
-        private Label helpLabel;
     }
 }

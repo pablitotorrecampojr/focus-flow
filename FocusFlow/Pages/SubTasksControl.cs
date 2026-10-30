@@ -5,8 +5,9 @@ namespace FocusFlow
     public partial class SubTasksControl : UserControl
     {
         private readonly TaskRecord task;
-        private readonly Bitmap editIcon = PencilIcon();
-        private readonly Bitmap deleteIcon = TrashIcon();
+        private readonly Bitmap editIcon = LoadIcon("icons8-pencil-100.png");
+        private readonly Bitmap deleteIcon = LoadIcon("icons8-trash-100.png");
+        private Point hoverCell = new(-1, -1);
         private bool loading;
 
         public event EventHandler? BackRequested;
@@ -141,6 +142,42 @@ namespace FocusFlow
             e.ThrowException = false;
         }
 
+        private void subtaskGrid_CellMouseMove(object? sender, DataGridViewCellMouseEventArgs e)
+        {
+            SetHover(e.ColumnIndex, e.RowIndex);
+        }
+
+        private void subtaskGrid_CellMouseLeave(object? sender, DataGridViewCellEventArgs e)
+        {
+            if (hoverCell.X == e.ColumnIndex && hoverCell.Y == e.RowIndex)
+            {
+                SetHover(-1, -1);
+            }
+        }
+
+        private void SetHover(int column, int row)
+        {
+            bool action = row >= 0 && (column == editColumn.Index || column == deleteColumn.Index);
+            var next = action ? new Point(column, row) : new Point(-1, -1);
+            subtaskGrid.Cursor = next.X >= 0 ? Cursors.Hand : Cursors.Default;
+            if (next == hoverCell)
+            {
+                return;
+            }
+
+            Point previous = hoverCell;
+            hoverCell = next;
+            if (previous.Y >= 0)
+            {
+                subtaskGrid.InvalidateCell(previous.X, previous.Y);
+            }
+
+            if (hoverCell.Y >= 0)
+            {
+                subtaskGrid.InvalidateCell(hoverCell.X, hoverCell.Y);
+            }
+        }
+
         private void subtaskGrid_CellPainting(object? sender, DataGridViewCellPaintingEventArgs e)
         {
             Image? icon = e.ColumnIndex == editColumn.Index ? editIcon
@@ -152,38 +189,33 @@ namespace FocusFlow
             }
 
             e.Paint(e.ClipBounds, DataGridViewPaintParts.All & ~DataGridViewPaintParts.ContentForeground);
+            if (hoverCell.X == e.ColumnIndex && hoverCell.Y == e.RowIndex)
+            {
+                var chip = new Rectangle(
+                    e.CellBounds.X + (e.CellBounds.Width - 26) / 2,
+                    e.CellBounds.Y + (e.CellBounds.Height - 26) / 2,
+                    26,
+                    26);
+                Color wash = e.ColumnIndex == deleteColumn.Index
+                    ? Color.FromArgb(252, 232, 228)
+                    : Color.FromArgb(226, 236, 230);
+                using var brush = new SolidBrush(wash);
+                using GraphicsPath path = UiShapes.RoundedRectangle(chip, UiShapes.CornerRadius);
+                e.Graphics.SmoothingMode = SmoothingMode.AntiAlias;
+                e.Graphics.FillPath(brush, path);
+            }
+
             int x = e.CellBounds.X + (e.CellBounds.Width - icon.Width) / 2;
             int y = e.CellBounds.Y + (e.CellBounds.Height - icon.Height) / 2;
             e.Graphics.DrawImage(icon, x, y);
             e.Handled = true;
         }
 
-        private static Bitmap PencilIcon()
+        private static Bitmap LoadIcon(string fileName)
         {
-            var bitmap = new Bitmap(16, 16);
-            using var graphics = Graphics.FromImage(bitmap);
-            graphics.SmoothingMode = SmoothingMode.AntiAlias;
-            graphics.Clear(Color.Transparent);
-            using var pen = new Pen(Color.FromArgb(90, 98, 106), 1.4f);
-            graphics.DrawLine(pen, 3, 13, 12, 4);
-            graphics.DrawLine(pen, 10, 3, 13, 6);
-            graphics.DrawLine(pen, 2, 14, 5, 13);
-            return bitmap;
-        }
-
-        private static Bitmap TrashIcon()
-        {
-            var bitmap = new Bitmap(16, 16);
-            using var graphics = Graphics.FromImage(bitmap);
-            graphics.SmoothingMode = SmoothingMode.AntiAlias;
-            graphics.Clear(Color.Transparent);
-            using var pen = new Pen(Color.FromArgb(176, 106, 96), 1.4f);
-            graphics.DrawLine(pen, 3, 4, 13, 4);
-            graphics.DrawLine(pen, 6, 2, 10, 2);
-            graphics.DrawRectangle(pen, 4, 5, 8, 9);
-            graphics.DrawLine(pen, 7, 7, 7, 12);
-            graphics.DrawLine(pen, 9, 7, 9, 12);
-            return bitmap;
+            var path = Path.Combine(AppContext.BaseDirectory, "icons", fileName);
+            using var source = Image.FromFile(path);
+            return new Bitmap(source, new Size(16, 16));
         }
 
         private sealed class SubTaskEditForm : Form

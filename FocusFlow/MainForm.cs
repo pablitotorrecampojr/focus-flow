@@ -37,16 +37,22 @@ namespace FocusFlow
         private void StyleNavigation()
         {
             brandIcon.Image = new Bitmap(Image.FromFile(IconPath("icons8-cloud-100.png")), new Size(26, 26));
-            pages[navHome] = new HomeDashboardControl(Profile);
-            pages[navDaily] = new DailyRoutineControl(Profile);
+            var home = new HomeDashboardControl(Profile);
+            home.OpenFocus += (_, _) => OpenFocus(null);
+            pages[navHome] = home;
+            var daily = new DailyRoutineControl(Profile);
+            daily.LaunchFocus += (_, title) => OpenFocus(title);
+            pages[navDaily] = daily;
             pages[navTasks] = new TaskBreakdownControl(Profile);
             if (pages[navTasks] is TaskBreakdownControl taskPage)
             {
                 taskPage.OpenSubTasks += (_, task) => ShowSubTasks(task);
             }
-            pages[navFocus] = new FocusModeControl();
-            pages[navProgress] = new GentleProgressControl();
-            pages[navSettings] = new SettingsControl();
+            var focus = new FocusModeControl(Profile);
+            focus.ExitRequested += (_, _) => SetActiveNav(navHome);
+            pages[navFocus] = focus;
+            pages[navProgress] = new GentleProgressControl(Profile);
+            pages[navSettings] = new SettingsControl(Profile);
             FormClosed += (_, _) =>
             {
                 foreach (UserControl page in pages.Values)
@@ -100,6 +106,15 @@ namespace FocusFlow
             }
         }
 
+        private void OpenFocus(string? sessionTitle)
+        {
+            SetActiveNav(navFocus);
+            if (pages[navFocus] is FocusModeControl focus)
+            {
+                focus.BeginSession(sessionTitle);
+            }
+        }
+
         private void ShowSubTasks(TaskRecord task)
         {
             var page = new SubTasksControl(Profile, task);
@@ -135,6 +150,18 @@ namespace FocusFlow
             else if (page is TaskBreakdownControl tasks)
             {
                 tasks.Reload();
+            }
+            else if (page is FocusModeControl focus)
+            {
+                focus.RefreshIdle();
+            }
+            else if (page is GentleProgressControl progress)
+            {
+                progress.Reload();
+            }
+            else if (page is SettingsControl settings)
+            {
+                settings.LoadSettings();
             }
         }
 
