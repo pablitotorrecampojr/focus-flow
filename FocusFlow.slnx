@@ -1,3 +1,6 @@
 <Solution>
+  <Folder Name="/Solution Items/">
+    <File Path="AppDatabase.cs" />
+  </Folder>
   <Project Path="FocusFlow/FocusFlow.csproj" />
 </Solution>
